@@ -38,7 +38,7 @@
 		AEE183BF1A7E115E006AB6F6 /* EnumJsonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EnumJsonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEE183C41A7E115E006AB6F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AEE183C51A7E115E006AB6F6 /* EnumJsonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumJsonTests.swift; sourceTree = "<group>"; };
-		AEE183CF1A7E116C006AB6F6 /* EnumJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = EnumJson.swift; path = ../../src/EnumJson.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		AEE183CF1A7E116C006AB6F6 /* EnumJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = EnumJson.swift; path = ../../src/EnumJson.swift; sourceTree = "<group>"; };
 		AEE183D11A7E1342006AB6F6 /* EnumJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnumJson.swift; path = ../../src/EnumJson.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -413,6 +413,7 @@
 				AEE183CB1A7E115E006AB6F6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AEE183CC1A7E115E006AB6F6 /* Build configuration list for PBXNativeTarget "EnumJsonTests" */ = {
 			isa = XCConfigurationList;
@@ -421,6 +422,7 @@
 				AEE183CE1A7E115E006AB6F6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
