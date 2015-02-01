@@ -1,17 +1,26 @@
 import Foundation
 
+enum Json {
+    case JObject  (Dictionary<String, Json>)
+    case JArray   (Array<Json>)
+    case JNumber  (Double)
+    case JString  (String)
+    case JBoolean (Bool)
+    case JNull
+}
+
 class JBox<T> {
     let unbox: T
     init(_ value: T) {
         self.unbox = value
     }
 }
-
 enum JsonPath {
     case Key(String, JBox<JsonPath>)
     case Index(Int, JBox<JsonPath>)
     case End
 }
+
 
 extension JsonPath {
     var isEnd : Bool {
@@ -25,6 +34,7 @@ extension JsonPath {
         }
     }
 }
+
 
 extension JsonPath : IntegerLiteralConvertible {
     init(integerLiteral value: IntegerLiteralType) {
@@ -111,15 +121,6 @@ func ==(lhs: JsonPath, rhs: JsonPath) -> Bool{
 }
 func !=(lhs: JsonPath, rhs: JsonPath) -> Bool {
     return !(lhs == rhs)
-}
-
-enum Json {
-    case JObject  (Dictionary<String, Json>)
-    case JArray   (Array<Json>)
-    case JNumber  (Double)
-    case JString  (String)
-    case JBoolean (Bool)
-    case JNull
 }
 
 extension Json {
