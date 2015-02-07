@@ -188,7 +188,26 @@ class EnumJsonTests: XCTestCase {
             EJson(data: data)
         }
         
-        
+        XCTAssert(json != nil, "")
+        if let json = json {
+            let coordinates = json["coordinates"]
+            XCTAssert(coordinates != nil, "")
+            XCTAssert(coordinates!.isNull, "")
+            
+            let favorited = json["favorited"]
+            XCTAssert(favorited != nil, "")
+            XCTAssert(favorited!.isBoolean, "")
+            XCTAssert(favorited!.asBoolean != nil, "")
+            XCTAssert(favorited!.asBoolean! == false, "")
+            
+            let url = json["entities" ~> "urls" ~> 0 ~> "expanded_url"]
+            XCTAssert(url != nil, "")
+            XCTAssert(url! == "https://dev.twitter.com/terms/display-guidelines", "")
+            
+            let index = json["entities" ~> "urls" ~> 0 ~> "indices" ~> 1]
+            XCTAssert(index != nil, "")
+            XCTAssert(index! == 97, "")
+        }
     }
     
     func testPerformanceExample() {
