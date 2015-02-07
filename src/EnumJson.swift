@@ -1,8 +1,8 @@
 import Foundation
 
-enum Json {
-    case JObject  (Dictionary<String, Json>)
-    case JArray   (Array<Json>)
+enum EJson {
+    case JObject  (Dictionary<String, EJson>)
+    case JArray   (Array<EJson>)
     case JNumber  (Double)
     case JString  (String)
     case JBoolean (Bool)
@@ -15,14 +15,14 @@ class JBox<T> {
         self.unbox = value
     }
 }
-enum JsonPath {
-    case Key(String, JBox<JsonPath>)
-    case Index(Int, JBox<JsonPath>)
+enum EJsonPath {
+    case Key(String, JBox<EJsonPath>)
+    case Index(Int, JBox<EJsonPath>)
     case End
 }
 
 
-extension JsonPath {
+extension EJsonPath {
     var isEnd : Bool {
         get {
             switch self {
@@ -36,42 +36,42 @@ extension JsonPath {
 }
 
 
-extension JsonPath : IntegerLiteralConvertible {
+extension EJsonPath : IntegerLiteralConvertible {
     init(integerLiteral value: IntegerLiteralType) {
-        self = JsonPath.Index(value, JBox(JsonPath.End))
+        self = .Index(value, JBox(.End))
     }
 }
-extension JsonPath : StringLiteralConvertible {
+extension EJsonPath : StringLiteralConvertible {
     init(stringLiteral value: StringLiteralType) {
-        self = JsonPath.Key(value, JBox(JsonPath.End))
+        self = .Key(value, JBox(.End))
     }
     
     typealias ExtendedGraphemeClusterLiteralType = String
     init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
-        self = JsonPath.Key(value, JBox(JsonPath.End))
+        self = .Key(value, JBox(.End))
     }
     
     typealias UnicodeScalarLiteralType = String
     init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
-        self = JsonPath.Key(value, JBox(JsonPath.End))
+        self = .Key(value, JBox(.End))
     }
 }
 
 infix operator ~> { associativity left precedence 160}
-func ~>(lhs: JsonPath, rhs: JsonPath) -> JsonPath {
+func ~>(lhs: EJsonPath, rhs: EJsonPath) -> EJsonPath {
     switch lhs {
     case .End:
         return rhs
     case let .Key(k, n):
-        return JsonPath.Key(k, JBox(n.unbox ~> rhs))
+        return .Key(k, JBox(n.unbox ~> rhs))
     case let .Index(i, n):
-        return JsonPath.Index(i, JBox(n.unbox ~> rhs))
+        return .Index(i, JBox(n.unbox ~> rhs))
     default:
         break;
     }
 }
 
-extension JsonPath : Printable {
+extension EJsonPath : Printable {
      var description: String {
         get {
             switch self {
@@ -85,7 +85,7 @@ extension JsonPath : Printable {
         }
     }
 }
-extension JsonPath {
+extension EJsonPath {
     var isKey: Bool {
         get {
             switch self {
@@ -107,7 +107,7 @@ extension JsonPath {
         }
     }
 }
-func ==(lhs: JsonPath, rhs: JsonPath) -> Bool{
+func ==(lhs: EJsonPath, rhs: EJsonPath) -> Bool{
     switch (lhs, rhs) {
     case (.End, .End):
         return true
@@ -119,12 +119,12 @@ func ==(lhs: JsonPath, rhs: JsonPath) -> Bool{
         return false
     }
 }
-func !=(lhs: JsonPath, rhs: JsonPath) -> Bool {
+func !=(lhs: EJsonPath, rhs: EJsonPath) -> Bool {
     return !(lhs == rhs)
 }
 
-extension Json {
-    subscript(jsonPath: JsonPath) -> Json? {
+extension EJson {
+    subscript(jsonPath: EJsonPath) -> EJson? {
         switch jsonPath {
         case .End:
             return self
@@ -148,7 +148,7 @@ extension Json {
         }
     }
     
-    var asDictionary: Dictionary<String, Json>? {
+    var asDictionary: Dictionary<String, EJson>? {
         get {
             switch self {
             case let .JObject(value):
@@ -158,7 +158,7 @@ extension Json {
             }
         }
     }
-    var asArray: [Json]? {
+    var asArray: [EJson]? {
         get {
             switch self {
             case let .JArray(value):
@@ -262,7 +262,7 @@ extension Json {
         }
     }
  
-    func replace(value: Json, jsonPath: JsonPath) -> Json {
+    func replace(value: EJson, jsonPath: EJsonPath) -> EJson {
         switch jsonPath {
         case .End:
             return value
@@ -272,7 +272,7 @@ extension Json {
                 if let child = dictionary[key] {
                     dictionary[key] = child.replace(value, jsonPath: next.unbox)
                 }
-                return Json.JObject(dictionary)
+                return .JObject(dictionary)
             default:
                 return self
             }
@@ -282,7 +282,7 @@ extension Json {
                 if array.startIndex <= index && index < array.endIndex {
                     array[index] = array[index].replace(value, jsonPath: next.unbox)
                 }
-                return Json.JArray(array)
+                return .JArray(array)
             default:
                 return self
             }
@@ -292,7 +292,7 @@ extension Json {
         return self
     }
     
-    func remove(jsonPath: JsonPath) -> Json {
+    func remove(jsonPath: EJsonPath) -> EJson {
         switch jsonPath {
         case .End:
             return self
@@ -306,7 +306,7 @@ extension Json {
                         dictionary[key] = child.remove(next.unbox)
                     }
                 }
-                return Json.JObject(dictionary)
+                return .JObject(dictionary)
             default:
                 return self
             }
@@ -322,7 +322,7 @@ extension Json {
                         array[index] = array[index].remove(next.unbox)
                     }
                 }
-                return Json.JArray(array)
+                return .JArray(array)
             default:
                 return self
             }
@@ -332,13 +332,13 @@ extension Json {
         return self
     }
     
-    func append(json: Json, jsonPath: JsonPath) -> Json {
+    func append(json: EJson, jsonPath: EJsonPath) -> EJson {
         switch jsonPath {
         case .End:
             switch self {
             case var .JArray(array):
                 array.append(json)
-                return Json.JArray(array)
+                return .JArray(array)
             default:
                 return [self, json]
             }
@@ -357,12 +357,12 @@ extension Json {
                     } else {
                         if next.unbox.isKey {
                             // if next is key, create object
-                            let newOne = Json.JObject([:])
+                            let newOne = EJson.JObject([:])
                             dictionary[key] = newOne.append(json, jsonPath: next.unbox)
                         }
                     }
                 }
-                return Json.JObject(dictionary)
+                return .JObject(dictionary)
             default:
                 return self
             }
@@ -372,7 +372,7 @@ extension Json {
                 if array.startIndex <= index && index < array.endIndex {
                     array[index] = array[index].append(json, jsonPath: next.unbox)
                 }
-                return Json.JArray(array)
+                return .JArray(array)
             default:
                 return self
             }
@@ -383,7 +383,7 @@ extension Json {
     }
 }
 
-func ==(lhs: Json, rhs: Json) -> Bool {
+func ==(lhs: EJson, rhs: EJson) -> Bool {
     switch (lhs, rhs) {
     case (let .JObject(a), let .JObject(b)):
         if a.count != b.count {
@@ -431,65 +431,65 @@ func ==(lhs: Json, rhs: Json) -> Bool {
     }
     return false
 }
-func !=(lhs: Json, rhs: Json) -> Bool {
+func !=(lhs: EJson, rhs: EJson) -> Bool {
     return !(lhs == rhs)
 }
 
-extension Json : DictionaryLiteralConvertible {
+extension EJson : DictionaryLiteralConvertible {
     typealias Key = String
-    typealias Value = Json
+    typealias Value = EJson
     
     init(dictionaryLiteral elements: (Key, Value)...) {
-        var dictionary = [String : Json]()
+        var dictionary = [String : EJson]()
         for (key, value) in elements {
             dictionary[key] = value
         }
-        self = Json.JObject(dictionary)
+        self = .JObject(dictionary)
     }
 }
-extension Json : ArrayLiteralConvertible {
-    typealias Element = Json
+extension EJson : ArrayLiteralConvertible {
+    typealias Element = EJson
     init(arrayLiteral elements: Element...) {
-        self = Json.JArray(elements)
+        self = .JArray(elements)
     }
 }
-extension Json : StringLiteralConvertible {
+extension EJson : StringLiteralConvertible {
     init(stringLiteral value: StringLiteralType) {
-        self = Json.JString(value)
+        self = .JString(value)
     }
     
     typealias ExtendedGraphemeClusterLiteralType = String
     init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
-        self = Json.JString(value)
+        self = .JString(value)
     }
     
     typealias UnicodeScalarLiteralType = String
     init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
-        self = Json.JString(value)
+        self = .JString(value)
     }
 }
-extension Json : FloatLiteralConvertible {
+extension EJson : FloatLiteralConvertible {
     init(floatLiteral value: FloatLiteralType) {
-        self = Json.JNumber(value)
+        self = .JNumber(value)
     }
 }
-extension Json : IntegerLiteralConvertible {
+extension EJson : IntegerLiteralConvertible {
     init(integerLiteral value: IntegerLiteralType) {
-        self = Json.JNumber(Double(value))
+        self = .JNumber(Double(value))
     }
 }
-extension Json : BooleanLiteralConvertible {
+extension EJson : BooleanLiteralConvertible {
     init(booleanLiteral value: BooleanLiteralType) {
-        self = Json.JBoolean(value)
+        self = .JBoolean(value)
     }
 }
-extension Json : NilLiteralConvertible {
+extension EJson : NilLiteralConvertible {
     init(nilLiteral: ()) {
-        self = Json.JNull
+        self = .JNull
     }
 }
 
-extension Json {
+extension EJson {
     var anyObject: AnyObject {
         get {
             switch self {
@@ -536,17 +536,16 @@ extension Json {
     }
 }
 
-extension Json : Printable {
-    var readableData: NSData? {
+extension EJson : Printable {
+    var readableData: NSData {
         get {
-            // top level object should be object or array
             switch self {
             case .JObject:
                 break;
             case .JArray:
                 break;
             default:
-                return nil
+                return NSData()
             }
             var error: NSError? = nil
             let data = NSJSONSerialization.dataWithJSONObject(self.anyObject, options: NSJSONWritingOptions.PrettyPrinted, error: &error)
@@ -556,14 +555,11 @@ extension Json : Printable {
     
     var description: String {
         get {
-            if let data = self.readableData {
-                return NSString(data: data, encoding: NSUTF8StringEncoding) ?? ""
-            }
-            return ""
+            return NSString(data: self.readableData, encoding: NSUTF8StringEncoding) ?? ""
         }
     }
 }
-extension Json {
+extension EJson {
     init?(data: NSData) {
         var error: NSError? = nil
         if let jsonObject: AnyObject = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: &error) {
@@ -576,34 +572,36 @@ extension Json {
     }
 }
 
-private func toJson(anyObject: AnyObject) -> Json? {
+private func toJson(anyObject: AnyObject) -> EJson? {
     switch anyObject {
     case let dictionary as [NSObject:AnyObject]:
-        var object = [String:Json]()
+        var object = [String:EJson]()
         for (key, value) in dictionary {
             if let keystring = key as? NSString {
                 object[keystring] = toJson(value)
             }
         }
-        return Json.JObject(object)
+        return .JObject(object)
     case let array as [NSObject]:
-        var jarray = [Json]()
+        var jarray = [EJson]()
         for value in array {
             if let json = toJson(value) {
                 jarray += [json]
             }
         }
-        return Json.JArray(jarray)
+        return .JArray(jarray)
     case let string as String:
-        return Json.JString(string)
+        return .JString(string)
     case let number as NSNumber:
         if CFNumberGetType(number as CFNumber) == .CharType {
-            return Json.JBoolean(number.boolValue)
+            return .JBoolean(number.boolValue)
         }
-        return Json.JNumber(number.doubleValue)
+        return .JNumber(number.doubleValue)
     case let null as NSNull:
-        return Json.JNull
+        return .JNull
     default:
         return nil
     }
 }
+
+

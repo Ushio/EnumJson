@@ -22,7 +22,7 @@ class EnumJsonTests: XCTestCase {
     }
     
     func testBasic() {
-        let json: Json = [
+        let json: EJson = [
             "string" : "string_value",
             "number_double" : 10.5,
             "number_int" : 15,
@@ -67,16 +67,16 @@ class EnumJsonTests: XCTestCase {
         XCTAssert(json["object" ~> "three"] != nil);
         XCTAssert(json["object" ~> "three"]!.asNumber == 3);
         
-        let rebuild = Json(data: json.jsonData)
+        let rebuild = EJson(data: json.jsonData)
         XCTAssert(rebuild != nil)
         XCTAssert(json == rebuild!)
     }
     func testPath() {
         XCTAssert((1 ~> "one") ~> "hoge" == 1 ~> ("one" ~> "hoge"))
         
-        let path_a: JsonPath = "object"
-        let path_b: JsonPath = 1
-        let path_c: JsonPath = JsonPath.End
+        let path_a: EJsonPath = "object"
+        let path_b: EJsonPath = 1
+        let path_c: EJsonPath = EJsonPath.End
         
         XCTAssert(path_a.isKey)
         XCTAssert(path_b.isIndex)
@@ -88,7 +88,7 @@ class EnumJsonTests: XCTestCase {
         XCTAssert(("object" ~> 1 ~> "hoge") != ("object" ~> 1 ~> "hogee"))
     }
     func testRemove() {
-        let json_a: Json = [
+        let json_a: EJson = [
             "string" : "string_value",
             "number_double" : 10.5,
             "number_int" : 15,
@@ -119,7 +119,7 @@ class EnumJsonTests: XCTestCase {
         XCTAssert(json_a == json_a.remove(0 ~> 0))
     }
     func testReplace() {
-        let json_a: Json = [
+        let json_a: EJson = [
             "string" : "string_value",
             "number_double" : 10.5,
             "number_int" : 15,
@@ -149,7 +149,7 @@ class EnumJsonTests: XCTestCase {
             ])
     }
     func testAppend() {
-        var json: Json = [:]
+        var json: EJson = [:]
         XCTAssert(json == [:])
         
         json = json.append("string", jsonPath: "string_key")
@@ -176,9 +176,19 @@ class EnumJsonTests: XCTestCase {
         ])
         
         json = "a"
-        json = json.append("b", jsonPath: JsonPath.End)
-        json = json.append("c", jsonPath: JsonPath.End)
+        json = json.append("b", jsonPath: EJsonPath.End)
+        json = json.append("c", jsonPath: EJsonPath.End)
         XCTAssert(json == ["a", "b", "c"])
+    }
+    
+    func testJsonImport() {
+        let json = NSBundle(forClass: self.dynamicType).pathForResource("JsonExample1.txt", ofType: "") >>== { path -> NSData? in
+            NSData(contentsOfFile: path)
+        } >>== { data -> EJson? in
+            EJson(data: data)
+        }
+        
+        
     }
     
     func testPerformanceExample() {

@@ -7,13 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AE421D891A85EB9C00987374 /* JsonExample1.txt in Resources */ = {isa = PBXBuildFile; fileRef = AE421D881A85EB9C00987374 /* JsonExample1.txt */; };
+		AE5ABAD91A85FD1E0001B09B /* EnumJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5ABAD81A85FD1E0001B09B /* EnumJson.swift */; };
+		AE5ABADB1A85FDB30001B09B /* Maybe.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5ABADA1A85FDB30001B09B /* Maybe.swift */; };
+		AECD9B271A863172004CE886 /* Maybe.swift in Sources */ = {isa = PBXBuildFile; fileRef = AECD9B261A863172004CE886 /* Maybe.swift */; };
 		AEE183B01A7E115E006AB6F6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE183AF1A7E115E006AB6F6 /* AppDelegate.swift */; };
 		AEE183B21A7E115E006AB6F6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE183B11A7E115E006AB6F6 /* ViewController.swift */; };
 		AEE183B51A7E115E006AB6F6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEE183B31A7E115E006AB6F6 /* Main.storyboard */; };
 		AEE183B71A7E115E006AB6F6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AEE183B61A7E115E006AB6F6 /* Images.xcassets */; };
 		AEE183BA1A7E115E006AB6F6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = AEE183B81A7E115E006AB6F6 /* LaunchScreen.xib */; };
 		AEE183C61A7E115E006AB6F6 /* EnumJsonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE183C51A7E115E006AB6F6 /* EnumJsonTests.swift */; };
-		AEE183D01A7E116C006AB6F6 /* EnumJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE183CF1A7E116C006AB6F6 /* EnumJson.swift */; };
 		AEE183D21A7E1342006AB6F6 /* EnumJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE183D11A7E1342006AB6F6 /* EnumJson.swift */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +31,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AE421D881A85EB9C00987374 /* JsonExample1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = JsonExample1.txt; sourceTree = "<group>"; };
+		AE5ABAD81A85FD1E0001B09B /* EnumJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = EnumJson.swift; path = ../../src/EnumJson.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		AE5ABADA1A85FDB30001B09B /* Maybe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Maybe.swift; sourceTree = "<group>"; };
+		AECD9B261A863172004CE886 /* Maybe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Maybe.swift; path = EnumJson/Maybe.swift; sourceTree = SOURCE_ROOT; };
 		AEE183AA1A7E115E006AB6F6 /* EnumJson.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EnumJson.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEE183AE1A7E115E006AB6F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AEE183AF1A7E115E006AB6F6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -37,9 +44,8 @@
 		AEE183B91A7E115E006AB6F6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		AEE183BF1A7E115E006AB6F6 /* EnumJsonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EnumJsonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEE183C41A7E115E006AB6F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AEE183C51A7E115E006AB6F6 /* EnumJsonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumJsonTests.swift; sourceTree = "<group>"; };
-		AEE183CF1A7E116C006AB6F6 /* EnumJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = EnumJson.swift; path = ../../src/EnumJson.swift; sourceTree = "<group>"; };
-		AEE183D11A7E1342006AB6F6 /* EnumJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnumJson.swift; path = ../../src/EnumJson.swift; sourceTree = "<group>"; };
+		AEE183C51A7E115E006AB6F6 /* EnumJsonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = EnumJsonTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		AEE183D11A7E1342006AB6F6 /* EnumJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = EnumJson.swift; path = ../../src/EnumJson.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,7 +87,8 @@
 		AEE183AC1A7E115E006AB6F6 /* EnumJson */ = {
 			isa = PBXGroup;
 			children = (
-				AEE183CF1A7E116C006AB6F6 /* EnumJson.swift */,
+				AE5ABADA1A85FDB30001B09B /* Maybe.swift */,
+				AE5ABAD81A85FD1E0001B09B /* EnumJson.swift */,
 				AEE183AF1A7E115E006AB6F6 /* AppDelegate.swift */,
 				AEE183B11A7E115E006AB6F6 /* ViewController.swift */,
 				AEE183B31A7E115E006AB6F6 /* Main.storyboard */,
@@ -104,7 +111,9 @@
 			isa = PBXGroup;
 			children = (
 				AEE183D11A7E1342006AB6F6 /* EnumJson.swift */,
+				AECD9B261A863172004CE886 /* Maybe.swift */,
 				AEE183C51A7E115E006AB6F6 /* EnumJsonTests.swift */,
+				AE421D881A85EB9C00987374 /* JsonExample1.txt */,
 				AEE183C31A7E115E006AB6F6 /* Supporting Files */,
 			);
 			path = EnumJsonTests;
@@ -208,6 +217,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE421D891A85EB9C00987374 /* JsonExample1.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,7 +228,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AEE183D01A7E116C006AB6F6 /* EnumJson.swift in Sources */,
+				AE5ABADB1A85FDB30001B09B /* Maybe.swift in Sources */,
+				AE5ABAD91A85FD1E0001B09B /* EnumJson.swift in Sources */,
 				AEE183B21A7E115E006AB6F6 /* ViewController.swift in Sources */,
 				AEE183B01A7E115E006AB6F6 /* AppDelegate.swift in Sources */,
 			);
@@ -229,6 +240,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AEE183D21A7E1342006AB6F6 /* EnumJson.swift in Sources */,
+				AECD9B271A863172004CE886 /* Maybe.swift in Sources */,
 				AEE183C61A7E115E006AB6F6 /* EnumJsonTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
