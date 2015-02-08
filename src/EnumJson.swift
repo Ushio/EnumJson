@@ -641,7 +641,6 @@ private func topMapper() -> JMapper? {
 // mapping operator
 infix operator => { associativity right precedence 90 assignment }
 
-// for not optional value
 private func mapping<T>(inout me: T, path: EJsonPath, toValue: EJson -> T?, toJson: T -> EJson) {
     if let top = topMapper() {
         switch top.state {
@@ -660,21 +659,14 @@ private func mapping<T>(inout me: T, path: EJsonPath, toValue: EJson -> T?, toJs
     }
 }
 
-func => (inout me: String, path: EJsonPath) {
-    mapping(&me, path, { $0.asString }, { .JString($0) })
+func => <T: EJsonPrimitive> (inout me: T, path: EJsonPath) {
+    mapping(&me, path, { T(json: $0) }, { $0.jsonValue })
 }
-func => (inout me: Double, path: EJsonPath) {
-    mapping(&me, path, { $0.asNumber }, { .JNumber($0) })
-}
-func => (inout me: Bool, path: EJsonPath) {
-    mapping(&me, path, { $0.asBoolean }, { .JBoolean($0) })
-}
-func => <T: EJsonObjectMapping>(inout me: T, path: EJsonPath) {
+func => <T: EJsonObjectMapping> (inout me: T, path: EJsonPath) {
     mapping(&me, path, { $0.asMappedObject() }, { EJson(mappedObject: $0) })
 }
 
-// for Array
-private func mapping<T>(inout me: [T], path: EJsonPath, toValue: EJson -> T?, toJson: T -> EJson) {
+func mapping<T> (inout me: [T], path: EJsonPath, toValue: EJson -> T?, toJson: T -> EJson) {
     if let top = topMapper() {
         switch top.state {
         case .Write:
@@ -692,7 +684,6 @@ private func mapping<T>(inout me: [T], path: EJsonPath, toValue: EJson -> T?, to
                         return
                     }
                 }
-                
                 me = tmp
             } else {
                 top.error()
@@ -702,20 +693,13 @@ private func mapping<T>(inout me: [T], path: EJsonPath, toValue: EJson -> T?, to
         }
     }
 }
-func => (inout me: [String], path: EJsonPath) {
-    mapping(&me, path, { $0.asString }, { .JString($0) })
+func => <T: EJsonPrimitive> (inout me: [T], path: EJsonPath) {
+    mapping(&me, path, { T(json: $0) }, { $0.jsonValue })
 }
-func => (inout me: [Double], path: EJsonPath) {
-    mapping(&me, path, { $0.asNumber }, { .JNumber($0) })
-}
-func => (inout me: [Bool], path: EJsonPath) {
-    mapping(&me, path, { $0.asBoolean }, { .JBoolean($0) })
-}
-func => <T: EJsonObjectMapping>(inout me: [T], path: EJsonPath) {
+func => <T: EJsonObjectMapping> (inout me: [T], path: EJsonPath) {
     mapping(&me, path, { $0.asMappedObject() }, { EJson(mappedObject: $0) })
 }
 
-// for optional value
 private func mapping<T>(inout me: T?, path: EJsonPath, toValue: EJson -> T?, toJson: T -> EJson) {
     if let top = topMapper() {
         switch top.state {
@@ -732,21 +716,13 @@ private func mapping<T>(inout me: T?, path: EJsonPath, toValue: EJson -> T?, toJ
         }
     }
 }
-
-func => (inout me: String?, path: EJsonPath) {
-    mapping(&me, path, { $0.asString }, { .JString($0) })
+func => <T: EJsonPrimitive> (inout me: T?, path: EJsonPath) {
+    mapping(&me, path, { T(json: $0) }, { $0.jsonValue })
 }
-func => (inout me: Double?, path: EJsonPath) {
-    mapping(&me, path, { $0.asNumber }, { .JNumber($0) })
-}
-func => (inout me: Bool?, path: EJsonPath) {
-    mapping(&me, path, { $0.asBoolean }, { .JBoolean($0) })
-}
-func => <T: EJsonObjectMapping>(inout me: T?, path: EJsonPath) {
+func => <T: EJsonObjectMapping> (inout me: T?, path: EJsonPath) {
     mapping(&me, path, { $0.asMappedObject() }, { EJson(mappedObject: $0) })
 }
 
-// for optional array
 private func mapping<T>(inout me: [T]?, path: EJsonPath, toValue: EJson -> T?, toJson: T -> EJson) {
     if let top = topMapper() {
         switch top.state {
@@ -780,20 +756,12 @@ private func mapping<T>(inout me: [T]?, path: EJsonPath, toValue: EJson -> T?, t
         }
     }
 }
-func => (inout me: [String]?, path: EJsonPath) {
-    mapping(&me, path, { $0.asString }, { .JString($0) })
+func => <T: EJsonPrimitive> (inout me: [T]?, path: EJsonPath) {
+    mapping(&me, path, { T(json: $0) }, { $0.jsonValue })
 }
-func => (inout me: [Double]?, path: EJsonPath) {
-    mapping(&me, path, { $0.asNumber }, { .JNumber($0) })
-}
-func => (inout me: [Bool]?, path: EJsonPath) {
-    mapping(&me, path, { $0.asBoolean }, { .JBoolean($0) })
-}
-func => <T: EJsonObjectMapping>(inout me: [T]?, path: EJsonPath) {
+func => <T: EJsonObjectMapping> (inout me: [T]?, path: EJsonPath) {
     mapping(&me, path, { $0.asMappedObject() }, { EJson(mappedObject: $0) })
 }
-
-
 
 protocol EJsonObjectMapping {
     mutating func mapping()
@@ -861,3 +829,54 @@ public func >>><T, U>(optional: T?, f: T -> U?) -> U? {
         return nil
     }
 }
+
+
+protocol EJsonPrimitive {
+    var jsonValue: EJson { get }
+    init?(json: EJson)
+}
+
+extension String : EJsonPrimitive {
+    var jsonValue: EJson {
+        get {
+            return .JString(self)
+        }
+    }
+    init?(json: EJson) {
+        if let value = json.asString {
+            self = value
+        } else {
+            return nil
+        }
+    }
+}
+
+extension Double : EJsonPrimitive {
+    var jsonValue: EJson {
+        get {
+            return .JNumber(self)
+        }
+    }
+    init?(json: EJson) {
+        if let value = json.asNumber {
+            self = value
+        } else {
+            return nil
+        }
+    }
+}
+extension Bool : EJsonPrimitive {
+    var jsonValue: EJson {
+        get {
+            return .JBoolean(self)
+        }
+    }
+    init?(json: EJson) {
+        if let value = json.asBoolean {
+            self = value
+        } else {
+            return nil
+        }
+    }
+}
+
