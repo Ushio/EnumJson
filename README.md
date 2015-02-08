@@ -32,6 +32,13 @@ let json: EJson = [
 ```
 let data = json.jsonData
 ```
+####Import Json
+```
+if let json = EJson(data: data) {
+  // do something
+}
+```
+
 ####Definision of JsonPath
 ```
 class JBox<T> {
