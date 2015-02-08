@@ -68,7 +68,53 @@ let three: Double? = json["object" ~> "three"]?.asNumber
 
 ####Object Mapping
 ```
-TODO
+struct User {
+    var name = ""
+    var imageurl = ""
+}
+struct Tweet {
+    var text = ""
+    var user = User()
+}
+
+extension User : EJsonObjectMapping {
+    mutating func mapping() {
+        self.name => "name"
+        self.imageurl => "profile_image_url"
+    }
+}
+extension Tweet : EJsonObjectMapping {
+    mutating func mapping() {
+        self.text => "text"
+        self.user => "user"
+    }
+}
+
+let json: EJson = [
+    [
+        "text" : "Hello World!!",
+        "user" : [
+            "name" : "Alex",
+            "profile_image_url" : "http://dummy.jpeg"
+        ]
+    ],
+    [
+        "text" : "How are you?",
+        "user" : [
+            "name" : "Ken",
+            "profile_image_url" : "http://dummy.jpeg"
+        ]
+    ]
+]
+
+if let tweets: [Tweet] = json.asMappedObjects() {
+    // to objects
+    for tweet in tweets {
+        println("\(tweet.text) by @\(tweet.user.name) [\(tweet.user.imageurl)]")
+    }
+
+    // modify and build json
+    println(EJson(mappedObjects: tweets).replace("modify", jsonPath: 0 ~> "text").description)
+}
+
 ```
-
-

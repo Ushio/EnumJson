@@ -9,6 +9,28 @@
 import UIKit
 import XCTest
 
+struct User {
+    var name = ""
+    var imageurl = ""
+}
+struct Tweet {
+    var text = ""
+    var user = User()
+}
+
+extension User : EJsonObjectMapping {
+    mutating func mapping() {
+        self.name => "name"
+        self.imageurl => "profile_image_url"
+    }
+}
+extension Tweet : EJsonObjectMapping {
+    mutating func mapping() {
+        self.text => "text"
+        self.user => "user"
+    }
+}
+
 class EnumJsonTests: XCTestCase {
     
     override func setUp() {
@@ -207,6 +229,23 @@ class EnumJsonTests: XCTestCase {
             let index = json["entities" ~> "urls" ~> 0 ~> "indices" ~> 1]
             XCTAssert(index != nil, "")
             XCTAssert(index! == 97, "")
+        }
+    }
+    
+
+    func testObjectMapping() {
+        let tweets = NSBundle(forClass: self.dynamicType).pathForResource("JsonExample2.txt", ofType: "") >>> { path in
+            NSData(contentsOfFile: path)
+        } >>> { data in
+            EJson(data: data)
+        } >>> { json -> [Tweet]? in
+            json.asMappedObjects()
+        }
+        XCTAssert(tweets != nil, "")
+        if let tweets = tweets {
+            XCTAssert(tweets.count == 2, "")
+            XCTAssert(tweets[0].text == "Hello World!!", "")
+            XCTAssert(tweets[1].user.name == "Ken", "")
         }
     }
     

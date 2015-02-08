@@ -672,7 +672,7 @@ func => <T: EJsonObjectMapping>(inout me: T, path: EJsonPath) {
     mapping(&me, path, { $0.asMappedObject() }, { EJson(mappedObject: $0) })
 }
 func => <T: EJsonObjectMapping>(inout me: [T], path: EJsonPath) {
-    mapping(&me, path, { $0.asMappedObject() }, { EJson(mappedObjects: $0) })
+    mapping(&me, path, { $0.asMappedObjects() }, { EJson(mappedObjects: $0) })
 }
 
 private func mapping<T>(inout me: T?, path: EJsonPath, toValue: EJson -> T?, toJson: T -> EJson) {
@@ -706,7 +706,7 @@ func => <T: EJsonObjectMapping>(inout me: T?, path: EJsonPath) {
     mapping(&me, path, { $0.asMappedObject() }, { EJson(mappedObject: $0) })
 }
 func => <T: EJsonObjectMapping>(inout me: [T]?, path: EJsonPath) {
-    mapping(&me, path, { $0.asMappedObject() }, { EJson(mappedObjects: $0) })
+    mapping(&me, path, { $0.asMappedObjects() }, { EJson(mappedObjects: $0) })
 }
 
 protocol EJsonObjectMapping {
@@ -749,7 +749,7 @@ extension EJson {
         }
         return nil
     }
-    func asMappedObject<T: EJsonObjectMapping>() -> [T]? {
+    func asMappedObjects<T: EJsonObjectMapping>() -> [T]? {
         if let array = self.asArray {
             var objects = [T]()
             for json in array {

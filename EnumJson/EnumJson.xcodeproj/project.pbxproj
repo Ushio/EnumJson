@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AE09A6371A87419500B2820B /* JsonExample2.txt in Resources */ = {isa = PBXBuildFile; fileRef = AE09A6361A87419500B2820B /* JsonExample2.txt */; };
 		AE421D891A85EB9C00987374 /* JsonExample1.txt in Resources */ = {isa = PBXBuildFile; fileRef = AE421D881A85EB9C00987374 /* JsonExample1.txt */; };
 		AE5ABAD91A85FD1E0001B09B /* EnumJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5ABAD81A85FD1E0001B09B /* EnumJson.swift */; };
 		AE86F0CE1A863B8600A3B38A /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE86F0CD1A863B8600A3B38A /* Social.framework */; };
@@ -31,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		AE09A6351A87342500B2820B /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
+		AE09A6361A87419500B2820B /* JsonExample2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = JsonExample2.txt; sourceTree = "<group>"; };
 		AE421D881A85EB9C00987374 /* JsonExample1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = JsonExample1.txt; sourceTree = "<group>"; };
 		AE5ABAD81A85FD1E0001B09B /* EnumJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = EnumJson.swift; path = ../../src/EnumJson.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AE86F0CD1A863B8600A3B38A /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -114,6 +116,7 @@
 				AEE183D11A7E1342006AB6F6 /* EnumJson.swift */,
 				AEE183C51A7E115E006AB6F6 /* EnumJsonTests.swift */,
 				AE421D881A85EB9C00987374 /* JsonExample1.txt */,
+				AE09A6361A87419500B2820B /* JsonExample2.txt */,
 				AEE183C31A7E115E006AB6F6 /* Supporting Files */,
 			);
 			path = EnumJsonTests;
@@ -217,6 +220,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE09A6371A87419500B2820B /* JsonExample2.txt in Resources */,
 				AE421D891A85EB9C00987374 /* JsonExample1.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

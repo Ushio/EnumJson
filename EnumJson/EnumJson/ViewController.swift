@@ -32,18 +32,10 @@ extension User : EJsonObjectMapping {
         self.imageurl => "profile_image_url"
     }
 }
-
-extension Media : EJsonObjectMapping {
-    mutating func mapping() {
-        self.url => "url"
-        self.type => "type"
-    }
-}
 extension Tweet : EJsonObjectMapping {
     mutating func mapping() {
         self.text => "text"
         self.user => "user"
-        self.medias => "entities" ~> "media"
     }
 }
 
@@ -157,9 +149,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let request = SLRequest(forServiceType: SLServiceTypeTwitter, requestMethod: .GET, URL: url, parameters: ["count" : "50"])
         request.account = account
         request.performRequestWithHandler { (data, response, error) -> Void in
-            let tweets: [Tweet] = EJson(data: data)?.asMappedObject() ?? []
+            let tweets: [Tweet] = EJson(data: data)?.asMappedObjects() ?? []
             NSOperationQueue.mainQueue().addOperationWithBlock {
                 self.tweets = tweets
+                
+                let json = EJson(mappedObjects: tweets)
+                println(json.description)
             }
         }
     }
