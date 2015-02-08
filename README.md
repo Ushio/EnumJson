@@ -73,6 +73,80 @@ let green: String? = json["array" ~> 1]?.asString
 let three: Double? = json["object" ~> "three"]?.asNumber
 ```
 
+####Remove Json (EJson is purely immutable)
+```
+let json_a: EJson = [
+    "string" : "string_value",
+    "number_double" : 10.5,
+    "number_int" : 15,
+    "array" : ["red", "green", "blue", "blue"],
+    "object" : [
+        "one" : 1,
+        "two" : 2,
+        "three" : 3
+    ]
+]
+let json_b = json_a
+    .remove("number_int")
+    .remove("array" ~> 1)
+    .remove("object" ~> "one")
+
+
+let yes = json_b == [
+    "string" : "string_value",
+    "number_double" : 10.5,
+    "array" : ["red", "blue", "blue"],
+    "object" : [
+        "two" : 2,
+        "three" : 3
+    ]
+]
+```
+####Replace Json (EJson is purely immutable)
+```
+let json_a: EJson = [
+    "string" : "string_value",
+    "number_double" : 10.5,
+    "number_int" : 15,
+    "boolean" : true,
+    "array" : ["red", "green", "blue", "blue"],
+    "object" : [
+        "one" : 1,
+        "two" : 2,
+        "three" : 3
+    ]
+]
+let json_b = json_a
+    .replace(100, jsonPath: "number_double")
+    .replace("head", jsonPath: "array" ~> 0)
+    .replace("aaaaa", jsonPath: "aaa") /* ignore it! */
+    .replace(["four" : 4], jsonPath: "object")
+
+let yes = json_b == [
+    "string" : "string_value",
+    "number_double" : 100,
+    "number_int" : 15,
+    "array" : ["head", "green", "blue", "blue"],
+    "object" : ["four" : 4]
+]
+
+```
+####Append Json
+```
+var json: EJson = [:]
+
+json = json.append("string", jsonPath: "string_key")
+json = json.append(true, jsonPath: "key1" ~> "key2")
+json = json.append("a", jsonPath: "key3")
+json = json.append("c", jsonPath: "key3")
+
+let yes = json == [
+    "string_key" : "string",
+    "key1" : ["key2" : true],
+    "key3" : ["a", "c"]
+]
+```
+
 ####Object Mapping
 ```
 struct User {
