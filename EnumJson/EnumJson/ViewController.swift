@@ -131,9 +131,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                                             cell.imageviewUserThumbnail,
                                             duration: 0.2,
                                             options: UIViewAnimationOptions.TransitionCrossDissolve,
-                                            animations: { () -> Void in
-                                                cell.imageviewUserThumbnail.image = image
-                                        }, completion: { (completed) -> Void in })
+                                            animations: { () -> Void in cell.imageviewUserThumbnail.image = image},
+                                            completion: { (completed) -> Void in }
+                                        )
                                     }
                                 }
                             }
