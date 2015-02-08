@@ -36,36 +36,36 @@ class EnumJsonTests: XCTestCase {
             ]
         ]
         
-        XCTAssert(json["string"] != nil);
-        XCTAssert(json["string"]!.asString == "string_value");
-        XCTAssert(json["number_double"] != nil);
-        XCTAssert(json["number_double"]!.asNumber == 10.5);
-        XCTAssert(json["number_int"] != nil);
-        XCTAssert(json["number_int"]!.asNumber == 15);
-        XCTAssert(json["boolean"] != nil);
-        XCTAssert(json["boolean"]!.asBoolean == true);
-        XCTAssert(json["null"] != nil);
-        XCTAssert(json["null"]!.isNull == true);
+        XCTAssert(json["string"] != nil)
+        XCTAssert(json["string"]!.asString == "string_value")
+        XCTAssert(json["number_double"] != nil)
+        XCTAssert(json["number_double"]!.asNumber == 10.5)
+        XCTAssert(json["number_int"] != nil)
+        XCTAssert(json["number_int"]!.asNumber == 15)
+        XCTAssert(json["boolean"] != nil)
+        XCTAssert(json["boolean"]!.asBoolean == true)
+        XCTAssert(json["null"] != nil)
+        XCTAssert(json["null"]!.isNull == true)
         
-        XCTAssert(json["array" ~> 0] != nil);
-        XCTAssert(json["array" ~> 0]!.asString == "red");
-        XCTAssert(json["array" ~> 1] != nil);
-        XCTAssert(json["array" ~> 1]!.asString == "green");
-        XCTAssert(json["array" ~> 2] != nil);
-        XCTAssert(json["array" ~> 2]!.asString == "blue");
+        XCTAssert(json["array" ~> 0] != nil)
+        XCTAssert(json["array" ~> 0]!.asString == "red")
+        XCTAssert(json["array" ~> 1] != nil)
+        XCTAssert(json["array" ~> 1]!.asString == "green")
+        XCTAssert(json["array" ~> 2] != nil)
+        XCTAssert(json["array" ~> 2]!.asString == "blue")
         
-        XCTAssert(json["array" ~> -1] == nil);
-        XCTAssert(json["array" ~> 9999] == nil);
+        XCTAssert(json["array" ~> -1] == nil)
+        XCTAssert(json["array" ~> 9999] == nil)
         
-        XCTAssert(json["arraay" ~> 1] == nil);
-        XCTAssert(json["arraay"] == nil);
+        XCTAssert(json["arraay" ~> 1] == nil)
+        XCTAssert(json["arraay"] == nil)
         
-        XCTAssert(json["object" ~> "one"] != nil);
-        XCTAssert(json["object" ~> "one"]!.asNumber == 1);
-        XCTAssert(json["object" ~> "two"] != nil);
-        XCTAssert(json["object" ~> "two"]!.asNumber == 2);
-        XCTAssert(json["object" ~> "three"] != nil);
-        XCTAssert(json["object" ~> "three"]!.asNumber == 3);
+        XCTAssert(json["object" ~> "one"] != nil)
+        XCTAssert(json["object" ~> "one"]!.asNumber == 1)
+        XCTAssert(json["object" ~> "two"] != nil)
+        XCTAssert(json["object" ~> "two"]!.asNumber == 2)
+        XCTAssert(json["object" ~> "three"] != nil)
+        XCTAssert(json["object" ~> "three"]!.asNumber == 3)
         
         let rebuild = EJson(data: json.jsonData)
         XCTAssert(rebuild != nil)
