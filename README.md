@@ -66,4 +66,9 @@ let green: String? = json["array" ~> 1]?.asString
 let three: Double? = json["object" ~> "three"]?.asNumber
 ```
 
+####Object Mapping
+```
+TODO
+```
+
 
