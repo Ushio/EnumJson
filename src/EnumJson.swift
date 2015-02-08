@@ -72,7 +72,7 @@ func ~>(lhs: EJsonPath, rhs: EJsonPath) -> EJsonPath {
 }
 
 extension EJsonPath : Printable {
-     var description: String {
+    var description: String {
         get {
             switch self {
             case .End:
@@ -198,8 +198,8 @@ extension EJson {
             }
         }
     }
-
-
+    
+    
     var isObject: Bool {
         get {
             switch self {
@@ -261,7 +261,7 @@ extension EJson {
             }
         }
     }
- 
+    
     func replace(value: EJson, jsonPath: EJsonPath) -> EJson {
         switch jsonPath {
         case .End:
@@ -641,6 +641,7 @@ private func topMapper() -> JMapper? {
 // mapping operator
 infix operator => { associativity right precedence 90 assignment }
 
+// for not optional value
 private func mapping<T>(inout me: T, path: EJsonPath, toValue: EJson -> T?, toJson: T -> EJson) {
     if let top = topMapper() {
         switch top.state {
@@ -671,10 +672,50 @@ func => (inout me: Bool, path: EJsonPath) {
 func => <T: EJsonObjectMapping>(inout me: T, path: EJsonPath) {
     mapping(&me, path, { $0.asMappedObject() }, { EJson(mappedObject: $0) })
 }
+
+// for Array
+private func mapping<T>(inout me: [T], path: EJsonPath, toValue: EJson -> T?, toJson: T -> EJson) {
+    if let top = topMapper() {
+        switch top.state {
+        case .Write:
+            top.json = top.json.append(.JArray(me.map(toJson)), jsonPath: path)
+        case .Read:
+            if let jarray = top.json[path]?.asArray {
+                var tmp = [T]()
+                tmp.reserveCapacity(jarray.count)
+                
+                for jvalue in jarray {
+                    if let value = toValue(jvalue) {
+                        tmp += [value]
+                    } else {
+                        top.error()
+                        return
+                    }
+                }
+                
+                me = tmp
+            } else {
+                top.error()
+            }
+        case .Error:
+            break
+        }
+    }
+}
+func => (inout me: [String], path: EJsonPath) {
+    mapping(&me, path, { $0.asString }, { .JString($0) })
+}
+func => (inout me: [Double], path: EJsonPath) {
+    mapping(&me, path, { $0.asNumber }, { .JNumber($0) })
+}
+func => (inout me: [Bool], path: EJsonPath) {
+    mapping(&me, path, { $0.asBoolean }, { .JBoolean($0) })
+}
 func => <T: EJsonObjectMapping>(inout me: [T], path: EJsonPath) {
-    mapping(&me, path, { $0.asMappedObjects() }, { EJson(mappedObjects: $0) })
+    mapping(&me, path, { $0.asMappedObject() }, { EJson(mappedObject: $0) })
 }
 
+// for optional value
 private func mapping<T>(inout me: T?, path: EJsonPath, toValue: EJson -> T?, toJson: T -> EJson) {
     if let top = topMapper() {
         switch top.state {
@@ -701,13 +742,58 @@ func => (inout me: Double?, path: EJsonPath) {
 func => (inout me: Bool?, path: EJsonPath) {
     mapping(&me, path, { $0.asBoolean }, { .JBoolean($0) })
 }
-
 func => <T: EJsonObjectMapping>(inout me: T?, path: EJsonPath) {
     mapping(&me, path, { $0.asMappedObject() }, { EJson(mappedObject: $0) })
 }
-func => <T: EJsonObjectMapping>(inout me: [T]?, path: EJsonPath) {
-    mapping(&me, path, { $0.asMappedObjects() }, { EJson(mappedObjects: $0) })
+
+// for optional array
+private func mapping<T>(inout me: [T]?, path: EJsonPath, toValue: EJson -> T?, toJson: T -> EJson) {
+    if let top = topMapper() {
+        switch top.state {
+        case .Write:
+            if let me = me {
+                top.json = top.json.append(.JArray(me.map(toJson)), jsonPath: path)
+            } else {
+                top.json = top.json.append(.JNull, jsonPath: path)
+            }
+        case .Read:
+            if let jarray = top.json[path]?.asArray {
+                var tmp = [T]()
+                tmp.reserveCapacity(jarray.count)
+                
+                for jvalue in jarray {
+                    if let value = toValue(jvalue) {
+                        tmp += [value]
+                    } else {
+                        me = nil
+                        return
+                    }
+                }
+                
+                me = tmp
+            } else {
+                me = nil
+                return
+            }
+        case .Error:
+            break
+        }
+    }
 }
+func => (inout me: [String]?, path: EJsonPath) {
+    mapping(&me, path, { $0.asString }, { .JString($0) })
+}
+func => (inout me: [Double]?, path: EJsonPath) {
+    mapping(&me, path, { $0.asNumber }, { .JNumber($0) })
+}
+func => (inout me: [Bool]?, path: EJsonPath) {
+    mapping(&me, path, { $0.asBoolean }, { .JBoolean($0) })
+}
+func => <T: EJsonObjectMapping>(inout me: [T]?, path: EJsonPath) {
+    mapping(&me, path, { $0.asMappedObject() }, { EJson(mappedObject: $0) })
+}
+
+
 
 protocol EJsonObjectMapping {
     mutating func mapping()
@@ -727,7 +813,7 @@ extension EJson {
         
         self = mapper.json
     }
-
+    
     func asMappedObject<T: EJsonObjectMapping>() -> T? {
         if let object = self.asDictionary {
             let mapper = JMapper(state: .Read, json: self)
@@ -744,7 +830,7 @@ extension EJson {
             default:
                 break
             }
-
+            
             return tmp
         }
         return nil
