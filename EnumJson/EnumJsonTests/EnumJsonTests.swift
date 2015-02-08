@@ -182,9 +182,9 @@ class EnumJsonTests: XCTestCase {
     }
     
     func testJsonImport() {
-        let json = NSBundle(forClass: self.dynamicType).pathForResource("JsonExample1.txt", ofType: "") >>== { path -> NSData? in
+        let json = NSBundle(forClass: self.dynamicType).pathForResource("JsonExample1.txt", ofType: "") >>> { path in
             NSData(contentsOfFile: path)
-        } >>== { data -> EJson? in
+        } >>> { data in
             EJson(data: data)
         }
         

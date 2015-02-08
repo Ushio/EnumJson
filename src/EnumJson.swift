@@ -574,16 +574,15 @@ extension EJson {
 
 private func toJson(anyObject: AnyObject) -> EJson? {
     switch anyObject {
-    case let dictionary as [NSObject:AnyObject]:
-        var object = [String:EJson]()
-        for (key, value) in dictionary {
-            if let keystring = key as? NSString {
-                object[keystring] = toJson(value)
-            }
+    case let dictionary as NSDictionary:
+        var object = [String:EJson](minimumCapacity: dictionary.count)
+        dictionary.enumerateKeysAndObjectsUsingBlock { (key, value, stop) -> Void in
+            object[key as String] = toJson(value)
         }
         return .JObject(object)
     case let array as [NSObject]:
         var jarray = [EJson]()
+        jarray.reserveCapacity(array.count)
         for value in array {
             if let json = toJson(value) {
                 jarray += [json]
@@ -604,4 +603,175 @@ private func toJson(anyObject: AnyObject) -> EJson? {
     }
 }
 
+enum JMapState {
+    case Error
+    case Read
+    case Write
+}
 
+class JMapper {
+    var state: JMapState
+    var json: EJson
+    init(state: JMapState, json: EJson) {
+        self.state = state
+        self.json = json
+    }
+    func error() {
+        self.state = .Error
+    }
+}
+
+private func pushMapper(mapper: JMapper, scope: (Void) -> Void) {
+    let dictionary = NSThread.currentThread().threadDictionary
+    var stack = dictionary["EnumJsonContextStack"] as? [JMapper] ?? []
+    dictionary["EnumJsonContextStack"] = stack + [mapper]
+    
+    scope()
+    
+    dictionary["EnumJsonContextStack"] = stack
+}
+private func topMapper() -> JMapper? {
+    let dictionary = NSThread.currentThread().threadDictionary
+    if let stack = dictionary["EnumJsonContextStack"] as? [JMapper] {
+        return stack.last?
+    }
+    return nil
+}
+
+// mapping operator
+infix operator => { associativity right precedence 90 assignment }
+
+private func mapping<T>(inout me: T, path: EJsonPath, toValue: EJson -> T?, toJson: T -> EJson) {
+    if let top = topMapper() {
+        switch top.state {
+        case .Write:
+            top.json = top.json.append(toJson(me), jsonPath: path)
+            break
+        case .Read:
+            if let read = top.json[path] >>> toValue {
+                me = read
+            } else {
+                top.error()
+            }
+        case .Error:
+            break
+        }
+    }
+}
+
+func => (inout me: String, path: EJsonPath) {
+    mapping(&me, path, { $0.asString }, { .JString($0) })
+}
+func => (inout me: Double, path: EJsonPath) {
+    mapping(&me, path, { $0.asNumber }, { .JNumber($0) })
+}
+func => (inout me: Bool, path: EJsonPath) {
+    mapping(&me, path, { $0.asBoolean }, { .JBoolean($0) })
+}
+func => <T: EJsonObjectMapping>(inout me: T, path: EJsonPath) {
+    mapping(&me, path, { $0.asMappedObject() }, { EJson(mappedObject: $0) })
+}
+func => <T: EJsonObjectMapping>(inout me: [T], path: EJsonPath) {
+    mapping(&me, path, { $0.asMappedObject() }, { EJson(mappedObjects: $0) })
+}
+
+private func mapping<T>(inout me: T?, path: EJsonPath, toValue: EJson -> T?, toJson: T -> EJson) {
+    if let top = topMapper() {
+        switch top.state {
+        case .Write:
+            if let me = me {
+                top.json = top.json.append(toJson(me), jsonPath: path)
+            } else {
+                top.json = top.json.append(.JNull, jsonPath: path)
+            }
+        case .Read:
+            me = top.json[path] >>> toValue
+        case .Error:
+            break
+        }
+    }
+}
+
+func => (inout me: String?, path: EJsonPath) {
+    mapping(&me, path, { $0.asString }, { .JString($0) })
+}
+func => (inout me: Double?, path: EJsonPath) {
+    mapping(&me, path, { $0.asNumber }, { .JNumber($0) })
+}
+func => (inout me: Bool?, path: EJsonPath) {
+    mapping(&me, path, { $0.asBoolean }, { .JBoolean($0) })
+}
+
+func => <T: EJsonObjectMapping>(inout me: T?, path: EJsonPath) {
+    mapping(&me, path, { $0.asMappedObject() }, { EJson(mappedObject: $0) })
+}
+func => <T: EJsonObjectMapping>(inout me: [T]?, path: EJsonPath) {
+    mapping(&me, path, { $0.asMappedObject() }, { EJson(mappedObjects: $0) })
+}
+
+protocol EJsonObjectMapping {
+    mutating func mapping()
+    init()
+}
+
+extension EJson {
+    init<T: EJsonObjectMapping>(mappedObjects: [T]) {
+        self = .JArray(mappedObjects.map {EJson(mappedObject: $0)})
+    }
+    init<T: EJsonObjectMapping>(var mappedObject: T) {
+        let mapper = JMapper(state: .Write, json: EJson.JObject([:]))
+        
+        pushMapper(mapper) {
+            mappedObject.mapping()
+        }
+        
+        self = mapper.json
+    }
+
+    func asMappedObject<T: EJsonObjectMapping>() -> T? {
+        if let object = self.asDictionary {
+            let mapper = JMapper(state: .Read, json: self)
+            
+            var tmp = T()
+            pushMapper(mapper) {
+                tmp.mapping()
+            }
+            
+            // error check
+            switch mapper.state {
+            case .Error:
+                return nil
+            default:
+                break
+            }
+
+            return tmp
+        }
+        return nil
+    }
+    func asMappedObject<T: EJsonObjectMapping>() -> [T]? {
+        if let array = self.asArray {
+            var objects = [T]()
+            for json in array {
+                if let object: T = json.asMappedObject() {
+                    objects += [object]
+                } else {
+                    return nil
+                }
+            }
+            return objects
+        }
+        return nil
+    }
+}
+
+// Maybe
+
+infix operator >>> { associativity left }
+public func >>><T, U>(optional: T?, f: T -> U?) -> U? {
+    if let x = optional {
+        return f(x)
+    } else {
+        return nil
+    }
+}
