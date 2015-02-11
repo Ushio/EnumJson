@@ -1,4 +1,6 @@
-Type Safe, Thread Safe, Easy Object Mapping, Interface Json Library in Swift
+##Type Safe, Thread Safe, Light Json Library in Swift
+
+###Required Swift 1.2
 
 ####Definision of Json
 ```
