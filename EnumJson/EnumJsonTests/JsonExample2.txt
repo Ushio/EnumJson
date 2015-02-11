@@ -1,13 +1,13 @@
 [
   {
-    "text" : "Hello World!!",
+    "number" : 102,
     "user" : {
       "name" : "Alex",
       "profile_image_url" : "http:\/\/dummy1.jpeg"
     }
   },
   {
-    "text" : "How are you?",
+    "number" : 130,
     "user" : {
       "name" : "Ken",
       "profile_image_url" : "http:\/\/dummy2.jpeg"

@@ -9,28 +9,19 @@
 import UIKit
 import XCTest
 
+
 struct User {
-    var name = ""
-    var imageurl = ""
-}
-struct Tweet {
-    var text = ""
-    var user = User()
-}
-
-extension User : EJsonObjectMapping {
-    mutating func mapping() {
-        self.name => "name"
-        self.imageurl => "profile_image_url"
+    let number: Double
+    let name: String
+    let imageurl: String
+    
+    static func construct(number: Double)(name: String)(imageurl: String) -> User{
+        return User(number: number, name: name, imageurl: imageurl)
+    }
+    static func fromJson(json: EJson) -> User? {
+        return construct <*> json["number"]?.asNumber <*> json["user" ~> "name"]?.asString <*> json["user" ~> "profile_image_url"]?.asString
     }
 }
-extension Tweet : EJsonObjectMapping {
-    mutating func mapping() {
-        self.text => "text"
-        self.user => "user"
-    }
-}
-
 class EnumJsonTests: XCTestCase {
     
     override func setUp() {
@@ -234,18 +225,18 @@ class EnumJsonTests: XCTestCase {
     
 
     func testObjectMapping() {
-        let tweets = NSBundle(forClass: self.dynamicType).pathForResource("JsonExample2.txt", ofType: "") >>> { path in
+        let users = NSBundle(forClass: self.dynamicType).pathForResource("JsonExample2.txt", ofType: "") >>> { path in
             NSData(contentsOfFile: path)
         } >>> { data in
-            EJson(data: data)
-        } >>> { json -> [Tweet]? in
-            json.asMappedObjects()
+            EJson(data: data)?.toArray(User.fromJson)
         }
-        XCTAssert(tweets != nil, "")
-        if let tweets = tweets {
-            XCTAssert(tweets.count == 2, "")
-            XCTAssert(tweets[0].text == "Hello World!!", "")
-            XCTAssert(tweets[1].user.name == "Ken", "")
+        
+        XCTAssert(users != nil, "")
+        if let users = users {
+            XCTAssert(users.count == 2, "")
+            XCTAssert(users[0].number == 102, "")
+            XCTAssert(users[1].name == "Ken", "")
+            XCTAssert(users[1].imageurl == "http://dummy2.jpeg", "")
         }
     }
     

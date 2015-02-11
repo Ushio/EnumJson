@@ -150,52 +150,22 @@ let yes = json == [
 ####Object Mapping
 ```
 struct User {
-    var name = ""
-    var imageurl = ""
-}
-struct Tweet {
-    var text = ""
-    var user = User()
-}
+    let name: String
+    let imageurl: String
+    let dummy: String?
 
-extension User : EJsonObjectMapping {
-    mutating func mapping() {
-        self.name => "name"
-        self.imageurl => "profile_image_url"
+    static func construct(name: String)(imageurl: String)(dummy: String?) -> User{
+        return User(name: name, imageurl: imageurl, dummy:dummy)
     }
-}
-extension Tweet : EJsonObjectMapping {
-    mutating func mapping() {
-        self.text => "text"
-        self.user => "user"
+    static func fromJson(json: EJson) -> User? {
+        return construct <*> json["name"]?.asString <*> json["profile_image_url"]?.asString <*> json["dummy"]?.asString
     }
 }
 
 let json: EJson = [
-    [
-        "text" : "Hello World!!",
-        "user" : [
-            "name" : "Alex",
-            "profile_image_url" : "http://dummy.jpeg"
-        ]
-    ],
-    [
-        "text" : "How are you?",
-        "user" : [
-            "name" : "Ken",
-            "profile_image_url" : "http://dummy.jpeg"
-        ]
-    ]
+    "name" : "ken",
+    "profile_image_url" : "http://image.png"
 ]
 
-if let tweets: [Tweet] = json.asMappedObjects() {
-    // to objects
-    for tweet in tweets {
-        println("\(tweet.text) by @\(tweet.user.name) [\(tweet.user.imageurl)]")
-    }
-
-    // modify and build json
-    println(EJson(mappedObjects: tweets).replace("modify", jsonPath: 0 ~> "text").description)
-}
-
+let user = User.fromJson(json)
 ```

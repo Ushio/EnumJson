@@ -10,32 +10,27 @@ import UIKit
 import Accounts
 import Social
 
-// mapped object
 struct User {
-    var name = ""
-    var imageurl = ""
-}
-struct Media {
-    var url = ""
-    var type = ""
-}
-struct Tweet {
-    var text = ""
-    var user = User()
-    var medias: [Media]? = []
-}
-
-// conform protocol
-extension User : EJsonObjectMapping {
-    mutating func mapping() {
-        self.name => "name"
-        self.imageurl => "profile_image_url"
+    let name: String
+    let imageurl: String
+    
+    static func construct(name: String)(imageurl: String) -> User{
+        return User(name: name, imageurl: imageurl)
+    }
+    static func fromJson(json: EJson) -> User? {
+        return construct <*> json["name"]?.asString <*> json["profile_image_url"]?.asString
     }
 }
-extension Tweet : EJsonObjectMapping {
-    mutating func mapping() {
-        self.text => "text"
-        self.user => "user"
+struct Tweet {
+    let text: String
+    let user: User
+    let nilable: Double?
+    
+    static func construct(text: String)(user: User)(nilable: Double?) -> Tweet{
+        return Tweet(text: text, user: user, nilable: nilable)
+    }
+    static func fromJson(json: EJson) -> Tweet? {
+        return construct <*> json["text"]?.asString <*> json["user"] >>> User.fromJson <*> json["dummy"]?.asNumber
     }
 }
 
@@ -83,7 +78,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 return
             }
             NSOperationQueue.mainQueue().addOperationWithBlock {
-                self.accounts = self.accountStore.accountsWithAccountType(accountType) as [ACAccount]
+                self.accounts = self.accountStore.accountsWithAccountType(accountType) as! [ACAccount]
             }
         }
     }
@@ -93,6 +88,30 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             return self.accounts.count
         }
         return self.tweets.count
+    }
+    
+    func cachedImage(url: String, completion: (UIImage?) -> ()) {
+        if let request = NSURL(string: url) >>> { NSURLRequest(URL:$0) } {
+            if let cache = urlCache.cachedResponseForRequest(request) {
+                NSOperationQueue.mainQueue().addOperationWithBlock {
+                    completion(UIImage(data: cache.data))
+                }
+            } else {
+                NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue() ) { (response, data, error) -> Void in
+                    if let image = data >>> { data in UIImage(data: data) } {
+                        
+                        let cached = NSCachedURLResponse(response: response, data: data)
+                        self.urlCache.storeCachedResponse(cached, forRequest: request)
+                        
+                        completion(image)
+                    } else {
+                        completion(nil)
+                    }
+                }
+            }
+        } else {
+            completion(nil)
+        }
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if tableView == self.tableviewAccounts {
@@ -107,28 +126,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell.labelContents.text = tweet.text
                 cell.imageviewUserThumbnail.image = nil
                 
-                if let request = NSURL(string: tweet.user.imageurl) >>> { NSURLRequest(URL:$0) } {
-                    if let cache = urlCache.cachedResponseForRequest(request) {
-                        cell.imageviewUserThumbnail.image = UIImage(data: cache.data)
-                    } else {
-                        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue() ) { (response, data, error) -> Void in
-                            if let image = data >>> { data in UIImage(data: data) } {
-                                
-                                let cached = NSCachedURLResponse(response: response, data: data)
-                                self.urlCache.storeCachedResponse(cached, forRequest: request)
-                                
-                                if let currentIndex = self.tableviewTweet.indexPathForCell(cell) {
-                                    if currentIndex == indexPath {
-                                        UIView.transitionWithView(
-                                            cell.imageviewUserThumbnail,
-                                            duration: 0.2,
-                                            options: UIViewAnimationOptions.TransitionCrossDissolve,
-                                            animations: { () -> Void in cell.imageviewUserThumbnail.image = image},
-                                            completion: { (completed) -> Void in }
-                                        )
-                                    }
-                                }
-                            }
+                cachedImage(tweet.user.imageurl) { image in
+                    if let currentIndex = self.tableviewTweet.indexPathForCell(cell) {
+                        if currentIndex == indexPath {
+                            cell.imageviewUserThumbnail.image = image
                         }
                     }
                 }
@@ -149,14 +150,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let request = SLRequest(forServiceType: SLServiceTypeTwitter, requestMethod: .GET, URL: url, parameters: ["count" : "50"])
         request.account = account
         request.performRequestWithHandler { (data, response, error) -> Void in
-            let tweets: [Tweet] = EJson(data: data)?.asMappedObjects() ?? []
+            let tweets = EJson(data: data)?.toArray(Tweet.fromJson) ?? []
             NSOperationQueue.mainQueue().addOperationWithBlock {
                 self.tweets = tweets
-                
-                let json = EJson(mappedObjects: tweets)
-                println(json.description)
             }
         }
     }
 }
+
 
