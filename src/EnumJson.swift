@@ -603,24 +603,6 @@ private func toJson(anyObject: AnyObject) -> EJson? {
     }
 }
 
-// Apply
-infix operator <*> { associativity left precedence 70}
-func <*><A, B>(f: (A -> B)?, a: A?) -> B? {
-    if let x = a {
-        if let fx = f {
-            return fx(x)
-        }
-    }
-    return nil
-}
-
-func <*><A, B>(f: (A? -> B)?, a: A?) -> B? {
-    if let fx = f {
-        return fx(a)
-    }
-    return nil
-}
-
 extension EJson {
     func toArray<T>(f:(EJson -> T?)) -> [T]? {
         if let jsons = self.asArray {

@@ -15,12 +15,12 @@ struct User {
     let name: String
     let imageurl: String
     
-    static func construct(number: Double)(name: String)(imageurl: String) -> User{
-        return User(number: number, name: name, imageurl: imageurl)
-    }
-    static func fromJson(json: EJson) -> User? {
-        return construct <*> json["number"]?.asNumber <*> json["user" ~> "name"]?.asString <*> json["user" ~> "profile_image_url"]?.asString
-    }
+//    static func construct(number: Double)(name: String)(imageurl: String) -> User{
+//        return User(number: number, name: name, imageurl: imageurl)
+//    }
+//    static func fromJson(json: EJson) -> User? {
+//        return construct <*> json["number"]?.asNumber <*> json["user" ~> "name"]?.asString <*> json["user" ~> "profile_image_url"]?.asString
+//    }
 }
 class EnumJsonTests: XCTestCase {
     
@@ -225,19 +225,19 @@ class EnumJsonTests: XCTestCase {
     
 
     func testObjectMapping() {
-        let users = NSBundle(forClass: self.dynamicType).pathForResource("JsonExample2.txt", ofType: "") >>> { path in
-            NSData(contentsOfFile: path)
-        } >>> { data in
-            EJson(data: data)?.toArray(User.fromJson)
-        }
-        
-        XCTAssert(users != nil, "")
-        if let users = users {
-            XCTAssert(users.count == 2, "")
-            XCTAssert(users[0].number == 102, "")
-            XCTAssert(users[1].name == "Ken", "")
-            XCTAssert(users[1].imageurl == "http://dummy2.jpeg", "")
-        }
+//        let users = NSBundle(forClass: self.dynamicType).pathForResource("JsonExample2.txt", ofType: "") >>> { path in
+//            NSData(contentsOfFile: path)
+//        } >>> { data in
+//            EJson(data: data)?.toArray(User.fromJson)
+//        }
+//        
+//        XCTAssert(users != nil, "")
+//        if let users = users {
+//            XCTAssert(users.count == 2, "")
+//            XCTAssert(users[0].number == 102, "")
+//            XCTAssert(users[1].name == "Ken", "")
+//            XCTAssert(users[1].imageurl == "http://dummy2.jpeg", "")
+//        }
     }
     
     func testPerformanceExample() {

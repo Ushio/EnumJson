@@ -14,23 +14,28 @@ struct User {
     let name: String
     let imageurl: String
     
-    static func construct(name: String)(imageurl: String) -> User{
-        return User(name: name, imageurl: imageurl)
-    }
     static func fromJson(json: EJson) -> User? {
-        return construct <*> json["name"]?.asString <*> json["profile_image_url"]?.asString
+        if
+            let name = json["name"]?.asString,
+            let imageurl = json["profile_image_url"]?.asString
+        {
+            return User(name: name, imageurl: imageurl)
+        }
+        return nil
     }
 }
 struct Tweet {
     let text: String
     let user: User
-    let nilable: Double?
-    
-    static func construct(text: String)(user: User)(nilable: Double?) -> Tweet{
-        return Tweet(text: text, user: user, nilable: nilable)
-    }
+
     static func fromJson(json: EJson) -> Tweet? {
-        return construct <*> json["text"]?.asString <*> json["user"] >>> User.fromJson <*> json["dummy"]?.asNumber
+        if
+            let text = json["text"]?.asString,
+            let user = json["user"] >>> User.fromJson
+        {
+            return Tweet(text: text, user: user)
+        }
+        return nil
     }
 }
 
