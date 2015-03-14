@@ -14,7 +14,7 @@ struct User {
     let name: String
     let imageurl: String
     
-    static func fromJson(json: EJson) -> User? {
+    static func fromJson(json: Json) -> User? {
         if
             let name = json["name"]?.asString,
             let imageurl = json["profile_image_url"]?.asString
@@ -28,7 +28,7 @@ struct Tweet {
     let text: String
     let user: User
 
-    static func fromJson(json: EJson) -> Tweet? {
+    static func fromJson(json: Json) -> Tweet? {
         if
             let text = json["text"]?.asString,
             let user = json["user"] >>> User.fromJson
@@ -155,7 +155,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let request = SLRequest(forServiceType: SLServiceTypeTwitter, requestMethod: .GET, URL: url, parameters: ["count" : "50"])
         request.account = account
         request.performRequestWithHandler { (data, response, error) -> Void in
-            let tweets = EJson(data: data)?.toArray(Tweet.fromJson) ?? []
+            let tweets = Json(data: data)?.toArray(Tweet.fromJson) ?? []
             NSOperationQueue.mainQueue().addOperationWithBlock {
                 self.tweets = tweets
             }

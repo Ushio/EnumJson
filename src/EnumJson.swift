@@ -1,8 +1,8 @@
 import Foundation
 
-enum EJson {
-    case JObject  (Dictionary<String, EJson>)
-    case JArray   (Array<EJson>)
+public enum Json {
+    case JObject  (Dictionary<String, Json>)
+    case JArray   (Array<Json>)
     case JNumber  (Double)
     case JString  (String)
     case JBoolean (Bool)
@@ -15,14 +15,14 @@ class JBox<T> {
         self.unbox = value
     }
 }
-enum EJsonPath {
-    case Key(String, JBox<EJsonPath>)
-    case Index(Int, JBox<EJsonPath>)
+enum JsonPath {
+    case Key(String, JBox<JsonPath>)
+    case Index(Int, JBox<JsonPath>)
     case End
 }
 
 
-extension EJsonPath {
+extension JsonPath {
     var isEnd : Bool {
         get {
             switch self {
@@ -36,12 +36,12 @@ extension EJsonPath {
 }
 
 
-extension EJsonPath : IntegerLiteralConvertible {
+extension JsonPath : IntegerLiteralConvertible {
     init(integerLiteral value: IntegerLiteralType) {
         self = .Index(value, JBox(.End))
     }
 }
-extension EJsonPath : StringLiteralConvertible {
+extension JsonPath : StringLiteralConvertible {
     init(stringLiteral value: StringLiteralType) {
         self = .Key(value, JBox(.End))
     }
@@ -58,7 +58,7 @@ extension EJsonPath : StringLiteralConvertible {
 }
 
 infix operator ~> { associativity left precedence 160}
-func ~>(lhs: EJsonPath, rhs: EJsonPath) -> EJsonPath {
+func ~>(lhs: JsonPath, rhs: JsonPath) -> JsonPath {
     switch lhs {
     case .End:
         return rhs
@@ -71,7 +71,7 @@ func ~>(lhs: EJsonPath, rhs: EJsonPath) -> EJsonPath {
     }
 }
 
-extension EJsonPath : Printable {
+extension JsonPath : Printable {
     var description: String {
         get {
             switch self {
@@ -85,7 +85,7 @@ extension EJsonPath : Printable {
         }
     }
 }
-extension EJsonPath {
+extension JsonPath {
     var isKey: Bool {
         get {
             switch self {
@@ -107,7 +107,7 @@ extension EJsonPath {
         }
     }
 }
-func ==(lhs: EJsonPath, rhs: EJsonPath) -> Bool{
+func ==(lhs: JsonPath, rhs: JsonPath) -> Bool{
     switch (lhs, rhs) {
     case (.End, .End):
         return true
@@ -119,12 +119,12 @@ func ==(lhs: EJsonPath, rhs: EJsonPath) -> Bool{
         return false
     }
 }
-func !=(lhs: EJsonPath, rhs: EJsonPath) -> Bool {
+func !=(lhs: JsonPath, rhs: JsonPath) -> Bool {
     return !(lhs == rhs)
 }
 
-extension EJson {
-    subscript(jsonPath: EJsonPath) -> EJson? {
+extension Json {
+    subscript(jsonPath: JsonPath) -> Json? {
         switch jsonPath {
         case .End:
             return self
@@ -148,7 +148,7 @@ extension EJson {
         }
     }
     
-    var asDictionary: Dictionary<String, EJson>? {
+    var asDictionary: Dictionary<String, Json>? {
         get {
             switch self {
             case let .JObject(value):
@@ -158,7 +158,7 @@ extension EJson {
             }
         }
     }
-    var asArray: [EJson]? {
+    var asArray: [Json]? {
         get {
             switch self {
             case let .JArray(value):
@@ -262,7 +262,7 @@ extension EJson {
         }
     }
     
-    func replace(value: EJson, jsonPath: EJsonPath) -> EJson {
+    func replace(value: Json, jsonPath: JsonPath) -> Json {
         switch jsonPath {
         case .End:
             return value
@@ -292,7 +292,7 @@ extension EJson {
         return self
     }
     
-    func remove(jsonPath: EJsonPath) -> EJson {
+    func remove(jsonPath: JsonPath) -> Json {
         switch jsonPath {
         case .End:
             return self
@@ -332,7 +332,7 @@ extension EJson {
         return self
     }
     
-    func append(json: EJson, jsonPath: EJsonPath) -> EJson {
+    func append(json: Json, jsonPath: JsonPath) -> Json {
         switch jsonPath {
         case .End:
             switch self {
@@ -357,7 +357,7 @@ extension EJson {
                     } else {
                         if next.unbox.isKey {
                             // if next is key, create object
-                            let newOne = EJson.JObject([:])
+                            let newOne = Json.JObject([:])
                             dictionary[key] = newOne.append(json, jsonPath: next.unbox)
                         }
                     }
@@ -383,7 +383,7 @@ extension EJson {
     }
 }
 
-func ==(lhs: EJson, rhs: EJson) -> Bool {
+func ==(lhs: Json, rhs: Json) -> Bool {
     switch (lhs, rhs) {
     case (let .JObject(a), let .JObject(b)):
         if a.count != b.count {
@@ -431,65 +431,65 @@ func ==(lhs: EJson, rhs: EJson) -> Bool {
     }
     return false
 }
-func !=(lhs: EJson, rhs: EJson) -> Bool {
+func !=(lhs: Json, rhs: Json) -> Bool {
     return !(lhs == rhs)
 }
 
-extension EJson : DictionaryLiteralConvertible {
-    typealias Key = String
-    typealias Value = EJson
+extension Json : DictionaryLiteralConvertible {
+    public typealias Key = String
+    public typealias Value = Json
     
-    init(dictionaryLiteral elements: (Key, Value)...) {
-        var dictionary = [String : EJson]()
+    public init(dictionaryLiteral elements: (Key, Value)...) {
+        var dictionary = [String : Json]()
         for (key, value) in elements {
             dictionary[key] = value
         }
         self = .JObject(dictionary)
     }
 }
-extension EJson : ArrayLiteralConvertible {
-    typealias Element = EJson
-    init(arrayLiteral elements: Element...) {
+extension Json : ArrayLiteralConvertible {
+    public typealias Element = Json
+    public init(arrayLiteral elements: Element...) {
         self = .JArray(elements)
     }
 }
-extension EJson : StringLiteralConvertible {
-    init(stringLiteral value: StringLiteralType) {
+extension Json : StringLiteralConvertible {
+    public init(stringLiteral value: StringLiteralType) {
         self = .JString(value)
     }
     
-    typealias ExtendedGraphemeClusterLiteralType = String
-    init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
+    public typealias ExtendedGraphemeClusterLiteralType = String
+    public init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
         self = .JString(value)
     }
     
-    typealias UnicodeScalarLiteralType = String
-    init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
+    public typealias UnicodeScalarLiteralType = String
+    public init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
         self = .JString(value)
     }
 }
-extension EJson : FloatLiteralConvertible {
-    init(floatLiteral value: FloatLiteralType) {
+extension Json : FloatLiteralConvertible {
+    public init(floatLiteral value: FloatLiteralType) {
         self = .JNumber(value)
     }
 }
-extension EJson : IntegerLiteralConvertible {
-    init(integerLiteral value: IntegerLiteralType) {
+extension Json : IntegerLiteralConvertible {
+    public init(integerLiteral value: IntegerLiteralType) {
         self = .JNumber(Double(value))
     }
 }
-extension EJson : BooleanLiteralConvertible {
-    init(booleanLiteral value: BooleanLiteralType) {
+extension Json : BooleanLiteralConvertible {
+    public init(booleanLiteral value: BooleanLiteralType) {
         self = .JBoolean(value)
     }
 }
-extension EJson : NilLiteralConvertible {
-    init(nilLiteral: ()) {
+extension Json : NilLiteralConvertible {
+    public init(nilLiteral: ()) {
         self = .JNull
     }
 }
 
-extension EJson {
+extension Json {
     var anyObject: AnyObject {
         get {
             switch self {
@@ -536,8 +536,8 @@ extension EJson {
     }
 }
 
-extension EJson : Printable {
-    var readableData: NSData {
+extension Json : Printable {
+    public var readableData: NSData {
         get {
             switch self {
             case .JObject:
@@ -553,13 +553,13 @@ extension EJson : Printable {
         }
     }
     
-    var description: String {
+    public var description: String {
         get {
             return (NSString(data: self.readableData, encoding: NSUTF8StringEncoding) as String?) ?? ""
         }
     }
 }
-extension EJson {
+extension Json {
     init?(data: NSData) {
         var error: NSError? = nil
         if let jsonObject: AnyObject = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: &error) {
@@ -572,16 +572,16 @@ extension EJson {
     }
 }
 
-private func toJson(anyObject: AnyObject) -> EJson? {
+private func toJson(anyObject: AnyObject) -> Json? {
     switch anyObject {
     case let dictionary as NSDictionary:
-        var object = [String:EJson](minimumCapacity: dictionary.count)
+        var object = [String:Json](minimumCapacity: dictionary.count)
         dictionary.enumerateKeysAndObjectsUsingBlock { (key, value, stop) -> () in
             object[key as! String] = toJson(value)
         }
         return .JObject(object)
     case let array as [NSObject]:
-        var jarray = [EJson]()
+        var jarray = [Json]()
         jarray.reserveCapacity(array.count)
         for value in array {
             if let json = toJson(value) {
@@ -603,8 +603,8 @@ private func toJson(anyObject: AnyObject) -> EJson? {
     }
 }
 
-extension EJson {
-    func toArray<T>(f:(EJson -> T?)) -> [T]? {
+extension Json {
+    func toArray<T>(f:(Json -> T?)) -> [T]? {
         if let jsons = self.asArray {
             var values = [T]()
             for json in jsons {
