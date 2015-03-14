@@ -16,8 +16,8 @@ struct User {
     
     static func fromJson(json: Json) -> User? {
         if
-            let name = json["name"]?.asString,
-            let imageurl = json["profile_image_url"]?.asString
+            let name = json["name"]?.string,
+            let imageurl = json["profile_image_url"]?.string
         {
             return User(name: name, imageurl: imageurl)
         }
@@ -30,7 +30,7 @@ struct Tweet {
 
     static func fromJson(json: Json) -> Tweet? {
         if
-            let text = json["text"]?.asString,
+            let text = json["text"]?.string,
             let user = json["user"] >>> User.fromJson
         {
             return Tweet(text: text, user: user)

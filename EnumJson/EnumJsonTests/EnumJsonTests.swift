@@ -19,7 +19,7 @@ struct User {
 //        return User(number: number, name: name, imageurl: imageurl)
 //    }
 //    static func fromJson(json: Json) -> User? {
-//        return construct <*> json["number"]?.asNumber <*> json["user" ~> "name"]?.asString <*> json["user" ~> "profile_image_url"]?.asString
+//        return construct <*> json["number"]?.number <*> json["user" ~> "name"]?.asString <*> json["user" ~> "profile_image_url"]?.asString
 //    }
 }
 class EnumJsonTests: XCTestCase {
@@ -50,22 +50,22 @@ class EnumJsonTests: XCTestCase {
         ]
         
         XCTAssert(json["string"] != nil)
-        XCTAssert(json["string"]!.asString == "string_value")
+        XCTAssert(json["string"]!.string == "string_value")
         XCTAssert(json["number_double"] != nil)
-        XCTAssert(json["number_double"]!.asNumber == 10.5)
+        XCTAssert(json["number_double"]!.number == 10.5)
         XCTAssert(json["number_int"] != nil)
-        XCTAssert(json["number_int"]!.asNumber == 15)
+        XCTAssert(json["number_int"]!.number == 15)
         XCTAssert(json["boolean"] != nil)
-        XCTAssert(json["boolean"]!.asBoolean == true)
+        XCTAssert(json["boolean"]!.boolean == true)
         XCTAssert(json["null"] != nil)
         XCTAssert(json["null"]!.isNull == true)
         
         XCTAssert(json["array" ~> 0] != nil)
-        XCTAssert(json["array" ~> 0]!.asString == "red")
+        XCTAssert(json["array" ~> 0]!.string == "red")
         XCTAssert(json["array" ~> 1] != nil)
-        XCTAssert(json["array" ~> 1]!.asString == "green")
+        XCTAssert(json["array" ~> 1]!.string == "green")
         XCTAssert(json["array" ~> 2] != nil)
-        XCTAssert(json["array" ~> 2]!.asString == "blue")
+        XCTAssert(json["array" ~> 2]!.string == "blue")
         
         XCTAssert(json["array" ~> -1] == nil)
         XCTAssert(json["array" ~> 9999] == nil)
@@ -74,11 +74,11 @@ class EnumJsonTests: XCTestCase {
         XCTAssert(json["arraay"] == nil)
         
         XCTAssert(json["object" ~> "one"] != nil)
-        XCTAssert(json["object" ~> "one"]!.asNumber == 1)
+        XCTAssert(json["object" ~> "one"]!.number == 1)
         XCTAssert(json["object" ~> "two"] != nil)
-        XCTAssert(json["object" ~> "two"]!.asNumber == 2)
+        XCTAssert(json["object" ~> "two"]!.number == 2)
         XCTAssert(json["object" ~> "three"] != nil)
-        XCTAssert(json["object" ~> "three"]!.asNumber == 3)
+        XCTAssert(json["object" ~> "three"]!.number == 3)
         
         let rebuild = Json(data: json.jsonData)
         XCTAssert(rebuild != nil)
@@ -210,8 +210,8 @@ class EnumJsonTests: XCTestCase {
             let favorited = json["favorited"]
             XCTAssert(favorited != nil, "")
             XCTAssert(favorited!.isBoolean, "")
-            XCTAssert(favorited!.asBoolean != nil, "")
-            XCTAssert(favorited!.asBoolean! == false, "")
+            XCTAssert(favorited!.boolean != nil, "")
+            XCTAssert(favorited!.boolean! == false, "")
             
             let url = json["entities" ~> "urls" ~> 0 ~> "expanded_url"]
             XCTAssert(url != nil, "")

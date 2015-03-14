@@ -148,7 +148,7 @@ extension Json {
         }
     }
     
-    var asDictionary: Dictionary<String, Json>? {
+    var dictionary: Dictionary<String, Json>? {
         get {
             switch self {
             case let .JObject(value):
@@ -158,7 +158,7 @@ extension Json {
             }
         }
     }
-    var asArray: [Json]? {
+    var array: [Json]? {
         get {
             switch self {
             case let .JArray(value):
@@ -168,7 +168,7 @@ extension Json {
             }
         }
     }
-    var asString: String? {
+    var string: String? {
         get {
             switch self {
             case let .JString(value):
@@ -178,7 +178,7 @@ extension Json {
             }
         }
     }
-    var asNumber: Double? {
+    var number: Double? {
         get {
             switch self {
             case let .JNumber(value):
@@ -188,7 +188,7 @@ extension Json {
             }
         }
     }
-    var asBoolean: Bool? {
+    var boolean: Bool? {
         get {
             switch self {
             case let .JBoolean(value):
@@ -604,8 +604,9 @@ private func toJson(anyObject: AnyObject) -> Json? {
 }
 
 extension Json {
+    // TODO
     func toArray<T>(f:(Json -> T?)) -> [T]? {
-        if let jsons = self.asArray {
+        if let jsons = self.array {
             var values = [T]()
             for json in jsons {
                 if let value = f(json) {
