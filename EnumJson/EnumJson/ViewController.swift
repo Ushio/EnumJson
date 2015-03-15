@@ -9,11 +9,11 @@
 import UIKit
 import Accounts
 import Social
+import EnumJsonFramework
 
 struct User {
     let name: String
     let imageurl: String
-    
     static func fromJson(json: Json) -> User? {
         if
             let name = json["name"]?.string,

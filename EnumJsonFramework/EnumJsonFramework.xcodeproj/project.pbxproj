@@ -8,29 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		AE212A271AB1A8AE0070A103 /* EnumJsonFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = AE212A261AB1A8AE0070A103 /* EnumJsonFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AE212A2D1AB1A8AE0070A103 /* EnumJsonFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE212A211AB1A8AE0070A103 /* EnumJsonFramework.framework */; };
-		AE212A341AB1A8AE0070A103 /* EnumJsonFrameworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE212A331AB1A8AE0070A103 /* EnumJsonFrameworkTests.swift */; };
 		AE212A3E1AB1A8CC0070A103 /* EnumJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE212A3D1AB1A8CC0070A103 /* EnumJson.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		AE212A2E1AB1A8AE0070A103 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AE212A181AB1A8AE0070A103 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = AE212A201AB1A8AE0070A103;
-			remoteInfo = EnumJsonFramework;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		AE212A211AB1A8AE0070A103 /* EnumJsonFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EnumJsonFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE212A251AB1A8AE0070A103 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AE212A261AB1A8AE0070A103 /* EnumJsonFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EnumJsonFramework.h; sourceTree = "<group>"; };
-		AE212A2C1AB1A8AE0070A103 /* EnumJsonFrameworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EnumJsonFrameworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		AE212A321AB1A8AE0070A103 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AE212A331AB1A8AE0070A103 /* EnumJsonFrameworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumJsonFrameworkTests.swift; sourceTree = "<group>"; };
-		AE212A3D1AB1A8CC0070A103 /* EnumJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnumJson.swift; path = ../../src/EnumJson.swift; sourceTree = "<group>"; };
+		AE212A3D1AB1A8CC0070A103 /* EnumJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = EnumJson.swift; path = ../../src/EnumJson.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,14 +26,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AE212A291AB1A8AE0070A103 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				AE212A2D1AB1A8AE0070A103 /* EnumJsonFramework.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -56,7 +33,6 @@
 			isa = PBXGroup;
 			children = (
 				AE212A231AB1A8AE0070A103 /* EnumJsonFramework */,
-				AE212A301AB1A8AE0070A103 /* EnumJsonFrameworkTests */,
 				AE212A221AB1A8AE0070A103 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -65,7 +41,6 @@
 			isa = PBXGroup;
 			children = (
 				AE212A211AB1A8AE0070A103 /* EnumJsonFramework.framework */,
-				AE212A2C1AB1A8AE0070A103 /* EnumJsonFrameworkTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -84,23 +59,6 @@
 			isa = PBXGroup;
 			children = (
 				AE212A251AB1A8AE0070A103 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		AE212A301AB1A8AE0070A103 /* EnumJsonFrameworkTests */ = {
-			isa = PBXGroup;
-			children = (
-				AE212A331AB1A8AE0070A103 /* EnumJsonFrameworkTests.swift */,
-				AE212A311AB1A8AE0070A103 /* Supporting Files */,
-			);
-			path = EnumJsonFrameworkTests;
-			sourceTree = "<group>";
-		};
-		AE212A311AB1A8AE0070A103 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				AE212A321AB1A8AE0070A103 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -137,24 +95,6 @@
 			productReference = AE212A211AB1A8AE0070A103 /* EnumJsonFramework.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		AE212A2B1AB1A8AE0070A103 /* EnumJsonFrameworkTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = AE212A3A1AB1A8AE0070A103 /* Build configuration list for PBXNativeTarget "EnumJsonFrameworkTests" */;
-			buildPhases = (
-				AE212A281AB1A8AE0070A103 /* Sources */,
-				AE212A291AB1A8AE0070A103 /* Frameworks */,
-				AE212A2A1AB1A8AE0070A103 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				AE212A2F1AB1A8AE0070A103 /* PBXTargetDependency */,
-			);
-			name = EnumJsonFrameworkTests;
-			productName = EnumJsonFrameworkTests;
-			productReference = AE212A2C1AB1A8AE0070A103 /* EnumJsonFrameworkTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -165,9 +105,6 @@
 				ORGANIZATIONNAME = Ushio;
 				TargetAttributes = {
 					AE212A201AB1A8AE0070A103 = {
-						CreatedOnToolsVersion = 6.3;
-					};
-					AE212A2B1AB1A8AE0070A103 = {
 						CreatedOnToolsVersion = 6.3;
 					};
 				};
@@ -185,20 +122,12 @@
 			projectRoot = "";
 			targets = (
 				AE212A201AB1A8AE0070A103 /* EnumJsonFramework */,
-				AE212A2B1AB1A8AE0070A103 /* EnumJsonFrameworkTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		AE212A1F1AB1A8AE0070A103 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		AE212A2A1AB1A8AE0070A103 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -216,23 +145,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AE212A281AB1A8AE0070A103 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				AE212A341AB1A8AE0070A103 /* EnumJsonFrameworkTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		AE212A2F1AB1A8AE0070A103 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = AE212A201AB1A8AE0070A103 /* EnumJsonFramework */;
-			targetProxy = AE212A2E1AB1A8AE0070A103 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		AE212A351AB1A8AE0070A103 /* Debug */ = {
@@ -334,8 +247,10 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = EnumJsonFramework/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_MODULE_NAME = EnumJsonFramework;
+				PRODUCT_NAME = EnumJsonFramework;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -351,39 +266,11 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = EnumJsonFramework/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_MODULE_NAME = EnumJsonFramework;
+				PRODUCT_NAME = EnumJsonFramework;
 				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		AE212A3B1AB1A8AE0070A103 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = EnumJsonFrameworkTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		AE212A3C1AB1A8AE0070A103 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = EnumJsonFrameworkTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -406,14 +293,7 @@
 				AE212A391AB1A8AE0070A103 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-		};
-		AE212A3A1AB1A8AE0070A103 /* Build configuration list for PBXNativeTarget "EnumJsonFrameworkTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				AE212A3B1AB1A8AE0070A103 /* Debug */,
-				AE212A3C1AB1A8AE0070A103 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

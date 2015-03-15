@@ -11,61 +11,61 @@ public enum Json {
 }
 
 /// Json Data Access Path
-enum JsonPath {
+public enum JsonPath {
     case Key   (String, () -> JsonPath)
     case Index (Int,    () -> JsonPath)
     case Nil
 }
 
 extension JsonPath : IntegerLiteralConvertible {
-    init(integerLiteral value: IntegerLiteralType) {
+    public init(integerLiteral value: IntegerLiteralType) {
         self = .Index(value, { .Nil })
     }
 }
 extension JsonPath {
-    init(_ key: String) {
+    public init(_ key: String) {
         self = JsonPath.Key(key, { .Nil })
     }
-    init(_ index: Int) {
+    public init(_ index: Int) {
         self = JsonPath.Index(index, { .Nil })
     }
 }
 extension JsonPath : StringLiteralConvertible {
-    init(stringLiteral value: StringLiteralType) {
+    public init(stringLiteral value: StringLiteralType) {
         self = .Key(value, { .Nil })
     }
     
-    typealias ExtendedGraphemeClusterLiteralType = String
-    init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
+    public typealias ExtendedGraphemeClusterLiteralType = String
+    public init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
         self = .Key(value, { .Nil })
     }
     
-    typealias UnicodeScalarLiteralType = String
-    init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
+    public typealias UnicodeScalarLiteralType = String
+    public init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
         self = .Key(value, { .Nil })
     }
 }
 extension JsonPath : NilLiteralConvertible {
-    init(nilLiteral: ()) {
+    public init(nilLiteral: ()) {
         self = .Nil
     }
 }
 
 
 extension Json {
-    init(_ object: Dictionary<String, Json>) {
+    public init(_ object: Dictionary<String, Json>) {
         self = .JObject(object)
     }
-    init(_ array: Array<Json>) {
+    public init(_ array: Array<Json>) {
         self = .JArray(array)
     }
-    init(_ number: NSNumber) {
+    public init(_ number: NSNumber) {
         self = .JNumber(number)
     }
-    init(_ string: String) {
+    public init(_ string: String) {
         self = .JString(string)
     }
-    init(_ boolean: Bool) {
+    public init(_ boolean: Bool) {
         self = .JBoolean(boolean)
     }
 }
@@ -124,7 +124,7 @@ extension Json : NilLiteralConvertible {
 }
 
 extension JsonPath {
-    var key: String? {
+    public var key: String? {
         switch self {
         case let .Key(key, cdr):
             return key
@@ -132,7 +132,7 @@ extension JsonPath {
             return nil
         }
     }
-    var index: Int? {
+    public var index: Int? {
         switch self {
         case let .Index(index, cdr):
             return index
@@ -140,7 +140,7 @@ extension JsonPath {
             return nil
         }
     }
-    var cdr: JsonPath {
+    public var cdr: JsonPath {
         switch self {
         case let .Key(car, cdr):
             return cdr()
@@ -150,7 +150,7 @@ extension JsonPath {
             return .Nil
         }
     }
-    var isNil: Bool {
+    public var isNil: Bool {
         switch self {
         case .Nil:
             return true
@@ -160,8 +160,8 @@ extension JsonPath {
     }
 }
 
-infix operator ~> { associativity left precedence 160}
-func ~>(a: JsonPath, b: JsonPath) -> JsonPath {
+//infix operator ~> { associativity left precedence 160}
+public func ~>(a: JsonPath, b: JsonPath) -> JsonPath {
     switch a {
     case let .Key(key, cdr):
         return .Key(key, { a.cdr ~> b })
@@ -173,7 +173,7 @@ func ~>(a: JsonPath, b: JsonPath) -> JsonPath {
 }
 
 extension JsonPath : Printable {
-    var description: String {
+    public var description: String {
         switch self {
         case let .Key(key, cdr):
             return "\"\(key)\" ~> " + cdr().description
@@ -186,7 +186,7 @@ extension JsonPath : Printable {
 }
 
 extension JsonPath : Equatable {}
-func ==(lhs: JsonPath, rhs: JsonPath) -> Bool{
+public func ==(lhs: JsonPath, rhs: JsonPath) -> Bool{
     switch (lhs, rhs) {
     case (.Nil, .Nil):
         return true
@@ -200,7 +200,7 @@ func ==(lhs: JsonPath, rhs: JsonPath) -> Bool{
 }
 
 extension Json {
-    var object: [String : Json]? {
+    public var object: [String : Json]? {
         get {
             switch self {
             case let .JObject(value):
@@ -210,7 +210,7 @@ extension Json {
             }
         }
     }
-    var array: [Json]? {
+    public var array: [Json]? {
         get {
             switch self {
             case let .JArray(value):
@@ -220,7 +220,7 @@ extension Json {
             }
         }
     }
-    var string: String? {
+    public var string: String? {
         get {
             switch self {
             case let .JString(value):
@@ -230,7 +230,7 @@ extension Json {
             }
         }
     }
-    var number: NSNumber? {
+    public var number: NSNumber? {
         get {
             switch self {
             case let .JNumber(value):
@@ -240,25 +240,25 @@ extension Json {
             }
         }
     }
-    var double: Double? {
+    public var double: Double? {
         return self.number?.doubleValue
     }
-    var int: Int? {
+    public var int: Int? {
         get {
             return self.number?.integerValue
         }
     }
-    var int64: Int64? {
+    public var int64: Int64? {
         get {
             return self.number?.longLongValue
         }
     }
-    var uint64: UInt64? {
+    public var uint64: UInt64? {
         get {
             return self.number?.unsignedLongLongValue
         }
     }
-    var boolean: Bool? {
+    public var boolean: Bool? {
         get {
             switch self {
             case let .JBoolean(value):
@@ -270,7 +270,7 @@ extension Json {
     }
     
     
-    var isObject: Bool {
+    public var isObject: Bool {
         get {
             switch self {
             case let .JObject:
@@ -280,7 +280,7 @@ extension Json {
             }
         }
     }
-    var isArray: Bool {
+    public var isArray: Bool {
         get {
             switch self {
             case let .JArray:
@@ -290,7 +290,7 @@ extension Json {
             }
         }
     }
-    var isString : Bool {
+    public var isString : Bool {
         get {
             switch self {
             case .JString:
@@ -300,7 +300,7 @@ extension Json {
             }
         }
     }
-    var isNumber : Bool {
+    public var isNumber : Bool {
         get {
             switch self {
             case .JNumber:
@@ -310,7 +310,7 @@ extension Json {
             }
         }
     }
-    var isBoolean : Bool {
+    public var isBoolean : Bool {
         get {
             switch self {
             case .JBoolean:
@@ -321,7 +321,7 @@ extension Json {
         }
     }
     
-    var isNull : Bool {
+    public var isNull : Bool {
         get {
             switch self {
             case .JNull:
@@ -332,7 +332,7 @@ extension Json {
         }
     }
     
-    subscript(jsonPath: JsonPath) -> Json? {
+    public subscript(jsonPath: JsonPath) -> Json? {
         get {
             switch jsonPath {
             case let .Key(key, cdr):
@@ -359,7 +359,7 @@ extension Json {
             }
         }
     }
-    func set(json: Json, jsonPath: JsonPath) -> Json {
+    public func set(json: Json, jsonPath: JsonPath) -> Json {
         switch jsonPath {
         case let .Key(key, cdr):
             if cdr().isNil {
@@ -399,7 +399,7 @@ extension Json {
         return self
     }
     
-    func remove(jsonPath: JsonPath) -> Json {
+    public func remove(jsonPath: JsonPath) -> Json {
         switch (jsonPath) {
         case let (.Nil):
             break
@@ -481,7 +481,7 @@ public func ==(lhs: Json, rhs: Json) -> Bool {
 }
 
 extension Json {
-    var anyObject: AnyObject {
+    public var anyObject: AnyObject {
         get {
             switch self {
             case let .JObject(dictionary):
@@ -503,17 +503,17 @@ extension Json {
             }
         }
     }
-    var isValidJsonObject: Bool {
+    public var isValidJsonObject: Bool {
         return NSJSONSerialization.isValidJSONObject(self.anyObject)
     }
-    var jsonData: NSData? {
+    public var jsonData: NSData? {
         get {
             var error: NSError? = nil
             let data = NSJSONSerialization.dataWithJSONObject(self.anyObject, options: NSJSONWritingOptions(0), error: &error)
             return data
         }
     }
-    var jsonString: String {
+    public var jsonString: String {
         get {
             if let data = self.jsonData {
                 return NSString(data: data, encoding: NSUTF8StringEncoding) as String? ?? ""
@@ -542,7 +542,7 @@ extension Json : Printable {
     }
 }
 extension Json {
-    init?(data: NSData) {
+    public init?(data: NSData) {
         var error: NSError? = nil
         if let jsonObject: AnyObject = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: &error) {
             if let json = toJson(jsonObject) {
@@ -593,7 +593,7 @@ extension Json {
     :param: conversion funciton
     :returns: convered array
     */
-    func toArray<T>(f:(Json -> T?)) -> [T]? {
+    public func toArray<T>(f:(Json -> T?)) -> [T]? {
         if let jsons = self.array {
             var values = [T]()
             for json in jsons {
