@@ -15,12 +15,16 @@ struct User {
     let name: String
     let imageurl: String
     
-//    static func construct(number: Double)(name: String)(imageurl: String) -> User{
-//        return User(number: number, name: name, imageurl: imageurl)
-//    }
-//    static func fromJson(json: Json) -> User? {
-//        return construct <*> json["number"]?.number <*> json["user" ~> "name"]?.asString <*> json["user" ~> "profile_image_url"]?.asString
-//    }
+    static func fromJson(json: Json) -> User? {
+        if
+            let number = json["number"]?.double,
+            let name = json["user" ~> "name"]?.string,
+            let imageurl = json["user" ~> "profile_image_url"]?.string
+        {
+            return User(number: number, name: name, imageurl: imageurl)
+        }
+        return nil
+    }
 }
 class EnumJsonTests: XCTestCase {
     
@@ -201,49 +205,49 @@ class EnumJsonTests: XCTestCase {
     }
     
     func testJsonImport() {
-//        let json = NSBundle(forClass: self.dynamicType).pathForResource("JsonExample1.txt", ofType: "") >>> { path in
-//            NSData(contentsOfFile: path)
-//        } >>> { data in
-//            Json(data: data)
-//        }
-//        
-//        XCTAssert(json != nil, "")
-//        if let json = json {
-//            let coordinates = json["coordinates"]
-//            XCTAssert(coordinates != nil, "")
-//            XCTAssert(coordinates!.isNull, "")
-//            
-//            let favorited = json["favorited"]
-//            XCTAssert(favorited != nil, "")
-//            XCTAssert(favorited!.isBoolean, "")
-//            XCTAssert(favorited!.boolean != nil, "")
-//            XCTAssert(favorited!.boolean! == false, "")
-//            
-//            let url = json["entities" ~> "urls" ~> 0 ~> "expanded_url"]
-//            XCTAssert(url != nil, "")
-//            XCTAssert(url! == "https://dev.twitter.com/terms/display-guidelines", "")
-//            
-//            let index = json["entities" ~> "urls" ~> 0 ~> "indices" ~> 1]
-//            XCTAssert(index != nil, "")
-//            XCTAssert(index! == 97, "")
-//        }
+        let bundle = NSBundle(forClass: self.dynamicType)
+        if
+            let path = bundle.pathForResource("JsonExample1.txt", ofType: ""),
+            let data = NSData(contentsOfFile: path),
+            let json = Json(data: data)
+        {
+            let coordinates = json["coordinates"]
+            XCTAssert(coordinates != nil, "")
+            XCTAssert(coordinates!.isNull, "")
+            
+            let favorited = json["favorited"]
+            XCTAssert(favorited != nil, "")
+            XCTAssert(favorited!.isBoolean, "")
+            XCTAssert(favorited!.boolean != nil, "")
+            XCTAssert(favorited!.boolean! == false, "")
+            
+            let url = json["entities" ~> "urls" ~> 0 ~> "expanded_url"]
+            XCTAssert(url != nil, "")
+            XCTAssert(url! == "https://dev.twitter.com/terms/display-guidelines", "")
+            
+            let index = json["entities" ~> "urls" ~> 0 ~> "indices" ~> 1]
+            XCTAssert(index != nil, "")
+            XCTAssert(index! == 97, "")
+        } else {
+            XCTAssert(false, "")
+        }
     }
     
 
     func testObjectMapping() {
-//        let users = NSBundle(forClass: self.dynamicType).pathForResource("JsonExample2.txt", ofType: "") >>> { path in
-//            NSData(contentsOfFile: path)
-//        } >>> { data in
-//            Json(data: data)?.toArray(User.fromJson)
-//        }
-//        
-//        XCTAssert(users != nil, "")
-//        if let users = users {
-//            XCTAssert(users.count == 2, "")
-//            XCTAssert(users[0].number == 102, "")
-//            XCTAssert(users[1].name == "Ken", "")
-//            XCTAssert(users[1].imageurl == "http://dummy2.jpeg", "")
-//        }
+        let bundle = NSBundle(forClass: self.dynamicType)
+        if
+            let path = bundle.pathForResource("JsonExample2.txt", ofType: ""),
+            let data = NSData(contentsOfFile: path),
+            let users = Json(data: data)?.toArray(User.fromJson)
+        {
+            XCTAssert(users.count == 2, "")
+            XCTAssert(users[0].number == 102, "")
+            XCTAssert(users[1].name == "Ken", "")
+            XCTAssert(users[1].imageurl == "http://dummy2.jpeg", "")
+        } else {
+            XCTAssert(false, "")
+        }
     }
     
     func testPerformanceExample() {

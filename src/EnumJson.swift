@@ -237,6 +237,9 @@ extension Json {
             }
         }
     }
+    var double: Double? {
+        return self.number?.doubleValue
+    }
     var int: Int? {
         get {
             return self.number?.integerValue
@@ -589,7 +592,6 @@ private func toJson(anyObject: AnyObject) -> Json? {
 }
 
 extension Json {
-    // TODO
     func toArray<T>(f:(Json -> T?)) -> [T]? {
         if let jsons = self.array {
             var values = [T]()
@@ -602,16 +604,6 @@ extension Json {
             }
             return values
         }
-        return nil
-    }
-}
-
-// Maybe
-infix operator >>> { associativity left }
-public func >>><T, U>(optional: T?, f: T -> U?) -> U? {
-    if let x = optional {
-        return f(x)
-    } else {
         return nil
     }
 }
