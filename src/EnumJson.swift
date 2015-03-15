@@ -1,154 +1,203 @@
 import Foundation
 
 public enum Json {
-    case JObject  (Dictionary<String, Json>)
-    case JArray   (Array<Json>)
-    case JNumber  (Double)
+    case JObject  ([String : Json])
+    case JArray   ([Json])
+    case JNumber  (NSNumber)
     case JString  (String)
     case JBoolean (Bool)
     case JNull
 }
-
-class JBox<T> {
-    let unbox: T
-    init(_ value: T) {
-        self.unbox = value
-    }
-}
 enum JsonPath {
-    case Key(String, JBox<JsonPath>)
-    case Index(Int, JBox<JsonPath>)
-    case End
+    case Key   (String, () -> JsonPath)
+    case Index (Int,    () -> JsonPath)
+    case Nil
 }
-
-
-extension JsonPath {
-    var isEnd : Bool {
-        get {
-            switch self {
-            case .End:
-                return true
-            default:
-                return false
-            }
-        }
-    }
-}
-
 
 extension JsonPath : IntegerLiteralConvertible {
     init(integerLiteral value: IntegerLiteralType) {
-        self = .Index(value, JBox(.End))
+        self = .Index(value, { .Nil })
+    }
+}
+extension JsonPath {
+    init(_ key: String) {
+        self = JsonPath.Key(key, { .Nil })
+    }
+    init(_ index: Int) {
+        self = JsonPath.Index(index, { .Nil })
     }
 }
 extension JsonPath : StringLiteralConvertible {
     init(stringLiteral value: StringLiteralType) {
-        self = .Key(value, JBox(.End))
+        self = .Key(value, { .Nil })
     }
     
     typealias ExtendedGraphemeClusterLiteralType = String
     init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
-        self = .Key(value, JBox(.End))
+        self = .Key(value, { .Nil })
     }
     
     typealias UnicodeScalarLiteralType = String
     init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
-        self = .Key(value, JBox(.End))
+        self = .Key(value, { .Nil })
+    }
+}
+extension JsonPath : NilLiteralConvertible {
+    init(nilLiteral: ()) {
+        self = .Nil
+    }
+}
+
+
+extension Json {
+    init(_ object: Dictionary<String, Json>) {
+        self = .JObject(object)
+    }
+    init(_ array: Array<Json>) {
+        self = .JArray(array)
+    }
+    init(_ number: NSNumber) {
+        self = .JNumber(number)
+    }
+    init(_ string: String) {
+        self = .JString(string)
+    }
+    init(_ boolean: Bool) {
+        self = .JBoolean(boolean)
+    }
+}
+extension Json : DictionaryLiteralConvertible {
+    public typealias Key = String
+    public typealias Value = Json
+    
+    public init(dictionaryLiteral elements: (Key, Value)...) {
+        var dictionary = [String : Json]()
+        for (key, value) in elements {
+            dictionary[key] = value
+        }
+        self = .JObject(dictionary)
+    }
+}
+extension Json : ArrayLiteralConvertible {
+    public typealias Element = Json
+    public init(arrayLiteral elements: Element...) {
+        self = .JArray(elements)
+    }
+}
+extension Json : StringLiteralConvertible {
+    public init(stringLiteral value: StringLiteralType) {
+        self = .JString(value)
+    }
+    
+    public typealias ExtendedGraphemeClusterLiteralType = String
+    public init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
+        self = .JString(value)
+    }
+    
+    public typealias UnicodeScalarLiteralType = String
+    public init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
+        self = .JString(value)
+    }
+}
+extension Json : FloatLiteralConvertible {
+    public init(floatLiteral value: FloatLiteralType) {
+        self = .JNumber(value)
+    }
+}
+extension Json : IntegerLiteralConvertible {
+    public init(integerLiteral value: IntegerLiteralType) {
+        self = .JNumber(value)
+    }
+}
+extension Json : BooleanLiteralConvertible {
+    public init(booleanLiteral value: BooleanLiteralType) {
+        self = .JBoolean(value)
+    }
+}
+extension Json : NilLiteralConvertible {
+    public init(nilLiteral: ()) {
+        self = .JNull
+    }
+}
+
+extension JsonPath {
+    var key: String? {
+        switch self {
+        case let .Key(key, cdr):
+            return key
+        default:
+            return nil
+        }
+    }
+    var index: Int? {
+        switch self {
+        case let .Index(index, cdr):
+            return index
+        default:
+            return nil
+        }
+    }
+    var cdr: JsonPath {
+        switch self {
+        case let .Key(car, cdr):
+            return cdr()
+        case let .Index(car, cdr):
+            return cdr()
+        case .Nil:
+            return .Nil
+        }
+    }
+    var isNil: Bool {
+        switch self {
+        case .Nil:
+            return true
+        default:
+            return false
+        }
     }
 }
 
 infix operator ~> { associativity left precedence 160}
-func ~>(lhs: JsonPath, rhs: JsonPath) -> JsonPath {
-    switch lhs {
-    case .End:
-        return rhs
-    case let .Key(k, n):
-        return .Key(k, JBox(n.unbox ~> rhs))
-    case let .Index(i, n):
-        return .Index(i, JBox(n.unbox ~> rhs))
-    default:
-        break;
+func ~>(a: JsonPath, b: JsonPath) -> JsonPath {
+    switch a {
+    case let .Key(key, cdr):
+        return .Key(key, { a.cdr ~> b })
+    case let .Index(index, cdr):
+        return .Index(index, { a.cdr ~> b })
+    case .Nil:
+        return b
     }
 }
 
 extension JsonPath : Printable {
     var description: String {
-        get {
-            switch self {
-            case .End:
-                return "@"
-            case let .Key(k, n):
-                return "\"\(k)\" ~> " + n.unbox.description
-            case let .Index(i, n):
-                return "\(i) ~> " + n.unbox.description
-            }
+        switch self {
+        case let .Key(key, cdr):
+            return "\"\(key)\" ~> " + cdr().description
+        case let .Index(index, cdr):
+            return "\(index) ~> " + cdr().description
+        case .Nil:
+            return "@"
         }
     }
 }
-extension JsonPath {
-    var isKey: Bool {
-        get {
-            switch self {
-            case let .Key:
-                return true
-            default:
-                return false
-            }
-        }
-    }
-    var isIndex: Bool {
-        get {
-            switch self {
-            case let .Index:
-                return true
-            default:
-                return false
-            }
-        }
-    }
-}
+
+extension JsonPath : Equatable {}
 func ==(lhs: JsonPath, rhs: JsonPath) -> Bool{
     switch (lhs, rhs) {
-    case (.End, .End):
+    case (.Nil, .Nil):
         return true
-    case (let .Key(key_l, next_l), let .Key(key_r, next_r)):
-        return key_l == key_r && next_l.unbox == next_r.unbox
-    case (let .Index(index_l, next_l), let .Index(index_r, next_r)):
-        return index_l == index_r && next_l.unbox == next_r.unbox
+    case (let .Key(key_l, cdr_l), let .Key(key_r, cdr_r)):
+        return key_l == key_r && cdr_l() == cdr_r()
+    case (let .Index(index_l, cdr_l), let .Index(index_r, cdr_r)):
+        return index_l == index_r && cdr_l() == cdr_r()
     default:
         return false
     }
 }
-func !=(lhs: JsonPath, rhs: JsonPath) -> Bool {
-    return !(lhs == rhs)
-}
 
 extension Json {
-    subscript(jsonPath: JsonPath) -> Json? {
-        switch jsonPath {
-        case .End:
-            return self
-        case let .Key(key, next):
-            switch self {
-            case let .JObject(dictionary):
-                return dictionary[key]?[next.unbox]
-            default:
-                return nil
-            }
-        case let .Index(index, next):
-            switch self {
-            case let .JArray(array):
-                if array.startIndex <= index && index < array.endIndex {
-                    return array[index][next.unbox]
-                }
-                return nil
-            default:
-                return nil
-            }
-        }
-    }
-    
-    var dictionary: Dictionary<String, Json>? {
+    var object: [String : Json]? {
         get {
             switch self {
             case let .JObject(value):
@@ -178,14 +227,29 @@ extension Json {
             }
         }
     }
-    var number: Double? {
+    var number: NSNumber? {
         get {
             switch self {
             case let .JNumber(value):
-                return value
+                return value.doubleValue
             default:
                 return nil
             }
+        }
+    }
+    var int: Int? {
+        get {
+            return self.number?.integerValue
+        }
+    }
+    var int64: Int64? {
+        get {
+            return self.number?.longLongValue
+        }
+    }
+    var uint64: UInt64? {
+        get {
+            return self.number?.unsignedLongLongValue
         }
     }
     var boolean: Bool? {
@@ -262,30 +326,67 @@ extension Json {
         }
     }
     
-    func replace(value: Json, jsonPath: JsonPath) -> Json {
+    subscript(jsonPath: JsonPath) -> Json? {
+        get {
+            switch jsonPath {
+            case let .Key(key, cdr):
+                return self.object?[key]?[cdr()]
+            case let .Index(index, cdr):
+                if
+                    let array = self.array
+                    where array.startIndex <= index && index < array.endIndex
+                {
+                    return array[index][cdr()]
+                }
+                return nil
+            case .Nil:
+                return self
+            }
+        }
+        set(json) {
+            if let json = json {
+                // set
+                self = self.set(json, jsonPath: jsonPath)
+            } else {
+                // remove
+                self = self.remove(jsonPath)
+            }
+        }
+    }
+    func set(json: Json, jsonPath: JsonPath) -> Json {
         switch jsonPath {
-        case .End:
-            return value
-        case let .Key(key, next):
-            switch self {
-            case var .JObject(dictionary):
-                if let child = dictionary[key] {
-                    dictionary[key] = child.replace(value, jsonPath: next.unbox)
+        case let .Key(key, cdr):
+            if cdr().isNil {
+                if var object = self.object {
+                    object[key] = json
+                    return Json(object)
                 }
-                return .JObject(dictionary)
-            default:
-                return self
-            }
-        case let .Index(index, next):
-            switch self {
-            case var .JArray(array):
-                if array.startIndex <= index && index < array.endIndex {
-                    array[index] = array[index].replace(value, jsonPath: next.unbox)
+            } else {
+                if var object = self.object {
+                    object[key] = (object[key] ?? Json([:])).set(json, jsonPath: cdr())
+                    return Json(object)
                 }
-                return .JArray(array)
-            default:
-                return self
             }
+            break
+        case let .Index(index, cdr):
+            if cdr().isNil {
+                if
+                    var array = self.array
+                    where array.startIndex <= index && index < array.endIndex
+                {
+                    array[index] = json
+                    return .JArray(array)
+                }
+            } else {
+                if
+                    var array = self.array
+                    where array.startIndex <= index && index < array.endIndex
+                {
+                    array[index] = array[index].set(json, jsonPath: cdr())
+                    return .JArray(array)
+                }
+            }
+            return self
         default:
             break
         }
@@ -293,105 +394,46 @@ extension Json {
     }
     
     func remove(jsonPath: JsonPath) -> Json {
-        switch jsonPath {
-        case .End:
-            return self
-        case let .Key(key, next):
-            switch self {
-            case var .JObject(dictionary):
-                if next.unbox.isEnd {
-                    dictionary[key] = nil
-                } else {
-                    if let child = dictionary[key] {
-                        dictionary[key] = child.remove(next.unbox)
-                    }
-                }
-                return .JObject(dictionary)
-            default:
-                return self
-            }
-        case let .Index(index, next):
-            switch self {
-            case var .JArray(array):
-                if next.unbox.isEnd {
-                    if array.startIndex <= index && index < array.endIndex {
-                        array.removeAtIndex(index)
-                    }
-                } else {
-                    if array.startIndex <= index && index < array.endIndex {
-                        array[index] = array[index].remove(next.unbox)
-                    }
-                }
-                return .JArray(array)
-            default:
-                return self
-            }
-        default:
+        switch (jsonPath) {
+        case let (.Nil):
             break
-        }
-        return self
-    }
-    
-    func append(json: Json, jsonPath: JsonPath) -> Json {
-        switch jsonPath {
-        case .End:
-            switch self {
-            case var .JArray(array):
-                array.append(json)
-                return .JArray(array)
-            default:
-                return [self, json]
+        case let .Key(key, cdr):
+            if var object = self.object {
+                if cdr().isNil {
+                    object[key] = nil
+                } else if let child = object[key] {
+                    object[key] = child.remove(cdr())
+                }
+                return Json(object)
             }
-        case let .Key(key, next):
-            switch self {
-            case var .JObject(dictionary):
-                if next.unbox.isEnd {
-                    if let child = dictionary[key] {
-                        dictionary[key] = child.append(json, jsonPath: next.unbox)
-                    } else {
-                        dictionary[key] = json
-                    }
+        case let .Index(index, cdr):
+            if
+                var array = self.array
+                where array.startIndex <= index && index < array.endIndex
+            {
+                if cdr().isNil {
+                    array.removeAtIndex(index)
                 } else {
-                    if let child = dictionary[key] {
-                        dictionary[key] = child.append(json, jsonPath: next.unbox)
-                    } else {
-                        if next.unbox.isKey {
-                            // if next is key, create object
-                            let newOne = Json.JObject([:])
-                            dictionary[key] = newOne.append(json, jsonPath: next.unbox)
-                        }
-                    }
+                    array[index] = array[index].remove(cdr())
                 }
-                return .JObject(dictionary)
-            default:
-                return self
+                return Json(array)
             }
-        case let .Index(index, next):
-            switch self {
-            case var .JArray(array):
-                if array.startIndex <= index && index < array.endIndex {
-                    array[index] = array[index].append(json, jsonPath: next.unbox)
-                }
-                return .JArray(array)
-            default:
-                return self
-            }
-        default:
-            break
         }
         return self
     }
 }
 
-func ==(lhs: Json, rhs: Json) -> Bool {
+extension Json: Equatable { }
+public func ==(lhs: Json, rhs: Json) -> Bool {
     switch (lhs, rhs) {
     case (let .JObject(a), let .JObject(b)):
         if a.count != b.count {
             return false
         }
+        
         let keys_a = sorted(a.keys)
         let keys_b = sorted(b.keys)
-        for (value_a, value_b) in Zip2(keys_a, keys_b) {
+        for (value_a, value_b) in zip(keys_a, keys_b) {
             if value_a != value_b {
                 return false
             }
@@ -412,7 +454,7 @@ func ==(lhs: Json, rhs: Json) -> Bool {
         if a.count != b.count {
             return false
         }
-        for (value_a, value_b) in Zip2(a, b) {
+        for (value_a, value_b) in zip(a, b) {
             if value_a != value_b {
                 return false
             }
@@ -430,63 +472,6 @@ func ==(lhs: Json, rhs: Json) -> Bool {
         break
     }
     return false
-}
-func !=(lhs: Json, rhs: Json) -> Bool {
-    return !(lhs == rhs)
-}
-
-extension Json : DictionaryLiteralConvertible {
-    public typealias Key = String
-    public typealias Value = Json
-    
-    public init(dictionaryLiteral elements: (Key, Value)...) {
-        var dictionary = [String : Json]()
-        for (key, value) in elements {
-            dictionary[key] = value
-        }
-        self = .JObject(dictionary)
-    }
-}
-extension Json : ArrayLiteralConvertible {
-    public typealias Element = Json
-    public init(arrayLiteral elements: Element...) {
-        self = .JArray(elements)
-    }
-}
-extension Json : StringLiteralConvertible {
-    public init(stringLiteral value: StringLiteralType) {
-        self = .JString(value)
-    }
-    
-    public typealias ExtendedGraphemeClusterLiteralType = String
-    public init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
-        self = .JString(value)
-    }
-    
-    public typealias UnicodeScalarLiteralType = String
-    public init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
-        self = .JString(value)
-    }
-}
-extension Json : FloatLiteralConvertible {
-    public init(floatLiteral value: FloatLiteralType) {
-        self = .JNumber(value)
-    }
-}
-extension Json : IntegerLiteralConvertible {
-    public init(integerLiteral value: IntegerLiteralType) {
-        self = .JNumber(Double(value))
-    }
-}
-extension Json : BooleanLiteralConvertible {
-    public init(booleanLiteral value: BooleanLiteralType) {
-        self = .JBoolean(value)
-    }
-}
-extension Json : NilLiteralConvertible {
-    public init(nilLiteral: ()) {
-        self = .JNull
-    }
 }
 
 extension Json {
@@ -630,4 +615,3 @@ public func >>><T, U>(optional: T?, f: T -> U?) -> U? {
         return nil
     }
 }
-

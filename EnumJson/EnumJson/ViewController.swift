@@ -14,29 +14,29 @@ struct User {
     let name: String
     let imageurl: String
     
-    static func fromJson(json: Json) -> User? {
-        if
-            let name = json["name"]?.string,
-            let imageurl = json["profile_image_url"]?.string
-        {
-            return User(name: name, imageurl: imageurl)
-        }
-        return nil
-    }
+//    static func fromJson(json: Json) -> User? {
+//        if
+//            let name = json["name"]?.string,
+//            let imageurl = json["profile_image_url"]?.string
+//        {
+//            return User(name: name, imageurl: imageurl)
+//        }
+//        return nil
+//    }
 }
 struct Tweet {
     let text: String
     let user: User
 
-    static func fromJson(json: Json) -> Tweet? {
-        if
-            let text = json["text"]?.string,
-            let user = json["user"] >>> User.fromJson
-        {
-            return Tweet(text: text, user: user)
-        }
-        return nil
-    }
+//    static func fromJson(json: Json) -> Tweet? {
+//        if
+//            let text = json["text"]?.string,
+//            let user = json["user"] >>> User.fromJson
+//        {
+//            return Tweet(text: text, user: user)
+//        }
+//        return nil
+//    }
 }
 
 class TweetTableViewCell : UITableViewCell {
@@ -67,6 +67,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         
         self.tableviewAccounts.delegate = self
         self.tableviewAccounts.dataSource = self
@@ -154,12 +156,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let url = NSURL(string: "https://api.twitter.com/1.1/statuses/home_timeline.json")
         let request = SLRequest(forServiceType: SLServiceTypeTwitter, requestMethod: .GET, URL: url, parameters: ["count" : "50"])
         request.account = account
-        request.performRequestWithHandler { (data, response, error) -> Void in
-            let tweets = Json(data: data)?.toArray(Tweet.fromJson) ?? []
-            NSOperationQueue.mainQueue().addOperationWithBlock {
-                self.tweets = tweets
-            }
-        }
+//        request.performRequestWithHandler { (data, response, error) -> Void in
+//            let tweets = Json(data: data)?.toArray(Tweet.fromJson) ?? []
+//            NSOperationQueue.mainQueue().addOperationWithBlock {
+//                self.tweets = tweets
+//            }
+//        }
     }
 }
 
