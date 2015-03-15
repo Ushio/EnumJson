@@ -87,9 +87,12 @@ class EnumJsonTests: XCTestCase {
         XCTAssert(json["object" ~> "three"] != nil)
         XCTAssert(json["object" ~> "three"]!.number == 3)
         
-        let rebuild = Json(data: json.jsonData)
-        XCTAssert(rebuild != nil)
-        XCTAssert(json == rebuild!)
+        if let data = json.jsonData, rebuild = Json(data: data) {
+            XCTAssert(json == rebuild)
+        } else {
+            XCTAssert(false)
+        }
+
     }
     func testPath() {
         XCTAssert((1 ~> "one") ~> "hoge" == 1 ~> ("one" ~> "hoge"))

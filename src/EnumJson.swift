@@ -1,5 +1,6 @@
 import Foundation
 
+/// Json Data Structure
 public enum Json {
     case JObject  ([String : Json])
     case JArray   ([Json])
@@ -8,6 +9,8 @@ public enum Json {
     case JBoolean (Bool)
     case JNull
 }
+
+/// Json Data Access Path
 enum JsonPath {
     case Key   (String, () -> JsonPath)
     case Index (Int,    () -> JsonPath)
@@ -500,50 +503,41 @@ extension Json {
             }
         }
     }
-    var jsonData: NSData {
+    var isValidJsonObject: Bool {
+        return NSJSONSerialization.isValidJSONObject(self.anyObject)
+    }
+    var jsonData: NSData? {
         get {
-            // top level object should be object or array
-            switch self {
-            case .JObject:
-                break;
-            case .JArray:
-                break;
-            default:
-                return NSData()
-            }
-            
             var error: NSError? = nil
             let data = NSJSONSerialization.dataWithJSONObject(self.anyObject, options: NSJSONWritingOptions(0), error: &error)
-            return data ?? NSData()
+            return data
         }
     }
     var jsonString: String {
         get {
-            return (NSString(data: self.jsonData, encoding: NSUTF8StringEncoding) as String?) ?? ""
+            if let data = self.jsonData {
+                return NSString(data: data, encoding: NSUTF8StringEncoding) as String? ?? ""
+            }
+            return ""
         }
     }
 }
 
 extension Json : Printable {
-    public var readableData: NSData {
+    public var readableData: NSData? {
         get {
-            switch self {
-            case .JObject:
-                break;
-            case .JArray:
-                break;
-            default:
-                return NSData()
-            }
             var error: NSError? = nil
             let data = NSJSONSerialization.dataWithJSONObject(self.anyObject, options: NSJSONWritingOptions.PrettyPrinted, error: &error)
-            return data ?? NSData()
+            return data
         }
     }
     
     public var description: String {
         get {
-            return (NSString(data: self.readableData, encoding: NSUTF8StringEncoding) as String?) ?? ""
+            if let data = self.readableData {
+                return NSString(data: data, encoding: NSUTF8StringEncoding) as String? ?? ""
+            }
+            return ""
         }
     }
 }
@@ -592,6 +586,13 @@ private func toJson(anyObject: AnyObject) -> Json? {
 }
 
 extension Json {
+    /**
+    Convert Json array to T array.
+    if json is not array or has some conversion error, return nil
+    
+    :param: conversion funciton
+    :returns: convered array
+    */
     func toArray<T>(f:(Json -> T?)) -> [T]? {
         if let jsons = self.array {
             var values = [T]()
