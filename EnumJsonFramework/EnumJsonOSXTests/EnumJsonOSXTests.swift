@@ -6,10 +6,9 @@
 //  Copyright (c) 2015年 Ushio. All rights reserved.
 //
 
-import UIKit
+import Cocoa
 import XCTest
-import EnumJsonFramework
-
+import EnumJson
 
 struct User {
     let number: Double
@@ -93,7 +92,7 @@ class EnumJsonTests: XCTestCase {
         } else {
             XCTAssert(false)
         }
-
+        
     }
     func testPath() {
         XCTAssert((1 ~> "one") ~> "hoge" == 1 ~> ("one" ~> "hoge"))
@@ -138,7 +137,7 @@ class EnumJsonTests: XCTestCase {
                 "two" : 2,
                 "three" : 3
             ]
-        ])
+            ])
         
         XCTAssert(json_a == json_a.remove("aaaaaa"))
         XCTAssert(json_a == json_a.remove(0))
@@ -186,21 +185,21 @@ class EnumJsonTests: XCTestCase {
         XCTAssert(json == [
             "string_key" : "string",
             "key1" : ["key2" : true]
-        ])
+            ])
         
         json["key3"] = "a"
         XCTAssert(json == [
             "string_key" : "string",
             "key1" : ["key2" : true],
             "key3" : "a"
-        ])
+            ])
         
         json["key3"] = "c"
         XCTAssert(json == [
             "string_key" : "string",
             "key1" : ["key2" : true],
             "key3" : "c"
-        ])
+            ])
         json["key1"] = nil
         
         XCTAssert(json == [
@@ -237,7 +236,7 @@ class EnumJsonTests: XCTestCase {
         }
     }
     
-
+    
     func testObjectMapping() {
         let bundle = NSBundle(forClass: self.dynamicType)
         if

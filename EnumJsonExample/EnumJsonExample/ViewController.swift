@@ -1,15 +1,15 @@
 //
 //  ViewController.swift
-//  EnumJson
+//  EnumJsonExample
 //
-//  Created by Ushio on 2015/02/01.
+//  Created by Ushio on 2015/03/15.
 //  Copyright (c) 2015年 Ushio. All rights reserved.
 //
 
 import UIKit
 import Accounts
 import Social
-import EnumJsonFramework
+import EnumJson
 
 struct User {
     let name: String
@@ -27,7 +27,7 @@ struct User {
 struct Tweet {
     let text: String
     let user: User
-
+    
     static func fromJson(json: Json) -> Tweet? {
         if
             let text = json["text"]?.string,

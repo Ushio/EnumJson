@@ -1,12 +1,13 @@
 //
 //  AppDelegate.swift
-//  EnumJson
+//  EnumJsonExample
 //
-//  Created by Ushio on 2015/02/01.
+//  Created by Ushio on 2015/03/15.
 //  Copyright (c) 2015年 Ushio. All rights reserved.
 //
 
 import UIKit
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -39,5 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+
+
 }
 

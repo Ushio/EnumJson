@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AE212A201AB1A8AE0070A103"
-               BuildableName = "EnumJsonFramework.framework"
-               BlueprintName = "EnumJsonFramework"
+               BlueprintIdentifier = "AE9B9E941AB58759006B71BC"
+               BuildableName = "EnumJson.framework"
+               BlueprintName = "EnumJson"
                ReferencedContainer = "container:EnumJsonFramework.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,9 +28,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AE212A2B1AB1A8AE0070A103"
-               BuildableName = "EnumJsonFrameworkTests.xctest"
-               BlueprintName = "EnumJsonFrameworkTests"
+               BlueprintIdentifier = "AE9B9E9E1AB5875A006B71BC"
+               BuildableName = "EnumJsonTests.xctest"
+               BlueprintName = "EnumJsonTests"
                ReferencedContainer = "container:EnumJsonFramework.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,9 +46,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AE212A2B1AB1A8AE0070A103"
-               BuildableName = "EnumJsonFrameworkTests.xctest"
-               BlueprintName = "EnumJsonFrameworkTests"
+               BlueprintIdentifier = "AE9B9E9E1AB5875A006B71BC"
+               BuildableName = "EnumJsonTests.xctest"
+               BlueprintName = "EnumJsonTests"
                ReferencedContainer = "container:EnumJsonFramework.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -56,9 +56,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AE212A201AB1A8AE0070A103"
-            BuildableName = "EnumJsonFramework.framework"
-            BlueprintName = "EnumJsonFramework"
+            BlueprintIdentifier = "AE9B9E941AB58759006B71BC"
+            BuildableName = "EnumJson.framework"
+            BlueprintName = "EnumJson"
             ReferencedContainer = "container:EnumJsonFramework.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -75,9 +75,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AE212A201AB1A8AE0070A103"
-            BuildableName = "EnumJsonFramework.framework"
-            BlueprintName = "EnumJsonFramework"
+            BlueprintIdentifier = "AE9B9E941AB58759006B71BC"
+            BuildableName = "EnumJson.framework"
+            BlueprintName = "EnumJson"
             ReferencedContainer = "container:EnumJsonFramework.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -93,9 +93,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AE212A201AB1A8AE0070A103"
-            BuildableName = "EnumJsonFramework.framework"
-            BlueprintName = "EnumJsonFramework"
+            BlueprintIdentifier = "AE9B9E941AB58759006B71BC"
+            BuildableName = "EnumJson.framework"
+            BlueprintName = "EnumJson"
             ReferencedContainer = "container:EnumJsonFramework.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

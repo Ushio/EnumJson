@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:EnumJson.xcodeproj">
+      location = "self:EnumJsonExample.xcodeproj">
    </FileRef>
 </Workspace>

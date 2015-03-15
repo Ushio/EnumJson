@@ -7,22 +7,83 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AE212A271AB1A8AE0070A103 /* EnumJsonFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = AE212A261AB1A8AE0070A103 /* EnumJsonFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AE212A3E1AB1A8CC0070A103 /* EnumJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE212A3D1AB1A8CC0070A103 /* EnumJson.swift */; };
+		AE9B9E7C1AB586EC006B71BC /* EnumJsonOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = AE9B9E7B1AB586EC006B71BC /* EnumJsonOSX.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AE9B9E821AB586EC006B71BC /* EnumJson.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE9B9E771AB586EC006B71BC /* EnumJson.framework */; };
+		AE9B9E891AB586EC006B71BC /* EnumJsonOSXTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9B9E881AB586EC006B71BC /* EnumJsonOSXTests.swift */; };
+		AE9B9E9A1AB58759006B71BC /* EnumJson.h in Headers */ = {isa = PBXBuildFile; fileRef = AE9B9E991AB58759006B71BC /* EnumJson.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AE9B9EA01AB5875A006B71BC /* EnumJson.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE9B9E951AB58759006B71BC /* EnumJson.framework */; };
+		AE9B9EA71AB5875A006B71BC /* EnumJsonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9B9EA61AB5875A006B71BC /* EnumJsonTests.swift */; };
+		AE9B9EAF1AB587B9006B71BC /* EnumJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9B9EAE1AB587B9006B71BC /* EnumJson.swift */; };
+		AE9B9EB01AB587B9006B71BC /* EnumJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE9B9EAE1AB587B9006B71BC /* EnumJson.swift */; };
+		AE9B9EB41AB587EB006B71BC /* JsonExample1.txt in Resources */ = {isa = PBXBuildFile; fileRef = AE9B9EB21AB587EB006B71BC /* JsonExample1.txt */; };
+		AE9B9EB51AB587EB006B71BC /* JsonExample1.txt in Resources */ = {isa = PBXBuildFile; fileRef = AE9B9EB21AB587EB006B71BC /* JsonExample1.txt */; };
+		AE9B9EB61AB587EB006B71BC /* JsonExample2.txt in Resources */ = {isa = PBXBuildFile; fileRef = AE9B9EB31AB587EB006B71BC /* JsonExample2.txt */; };
+		AE9B9EB71AB587EB006B71BC /* JsonExample2.txt in Resources */ = {isa = PBXBuildFile; fileRef = AE9B9EB31AB587EB006B71BC /* JsonExample2.txt */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		AE9B9E831AB586EC006B71BC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AE212A181AB1A8AE0070A103 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AE9B9E761AB586EC006B71BC;
+			remoteInfo = EnumJsonOSX;
+		};
+		AE9B9EA11AB5875A006B71BC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AE212A181AB1A8AE0070A103 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AE9B9E941AB58759006B71BC;
+			remoteInfo = EnumJson;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
-		AE212A211AB1A8AE0070A103 /* EnumJsonFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EnumJsonFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		AE212A251AB1A8AE0070A103 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AE212A261AB1A8AE0070A103 /* EnumJsonFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EnumJsonFramework.h; sourceTree = "<group>"; };
-		AE212A3D1AB1A8CC0070A103 /* EnumJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; name = EnumJson.swift; path = ../../src/EnumJson.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		AE9B9E771AB586EC006B71BC /* EnumJson.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EnumJson.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE9B9E7A1AB586EC006B71BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AE9B9E7B1AB586EC006B71BC /* EnumJsonOSX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EnumJsonOSX.h; sourceTree = "<group>"; };
+		AE9B9E811AB586EC006B71BC /* EnumJsonOSXTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EnumJsonOSXTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE9B9E871AB586EC006B71BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AE9B9E881AB586EC006B71BC /* EnumJsonOSXTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumJsonOSXTests.swift; sourceTree = "<group>"; };
+		AE9B9E951AB58759006B71BC /* EnumJson.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = EnumJson.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE9B9E981AB58759006B71BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AE9B9E991AB58759006B71BC /* EnumJson.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EnumJson.h; sourceTree = "<group>"; };
+		AE9B9E9F1AB5875A006B71BC /* EnumJsonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EnumJsonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE9B9EA51AB5875A006B71BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AE9B9EA61AB5875A006B71BC /* EnumJsonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumJsonTests.swift; sourceTree = "<group>"; };
+		AE9B9EAE1AB587B9006B71BC /* EnumJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EnumJson.swift; path = ../src/EnumJson.swift; sourceTree = "<group>"; };
+		AE9B9EB21AB587EB006B71BC /* JsonExample1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = JsonExample1.txt; sourceTree = "<group>"; };
+		AE9B9EB31AB587EB006B71BC /* JsonExample2.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = JsonExample2.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		AE212A1D1AB1A8AE0070A103 /* Frameworks */ = {
+		AE9B9E731AB586EC006B71BC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AE9B9E7E1AB586EC006B71BC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AE9B9E821AB586EC006B71BC /* EnumJson.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AE9B9E911AB58759006B71BC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AE9B9E9C1AB5875A006B71BC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AE9B9EA01AB5875A006B71BC /* EnumJson.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -32,7 +93,12 @@
 		AE212A171AB1A8AE0070A103 = {
 			isa = PBXGroup;
 			children = (
-				AE212A231AB1A8AE0070A103 /* EnumJsonFramework */,
+				AE9B9EF51AB58A4B006B71BC /* src */,
+				AE9B9EB11AB587EB006B71BC /* ExampleJson */,
+				AE9B9E961AB58759006B71BC /* EnumJson */,
+				AE9B9EA31AB5875A006B71BC /* EnumJsonTests */,
+				AE9B9E781AB586EC006B71BC /* EnumJsonOSX */,
+				AE9B9E851AB586EC006B71BC /* EnumJsonOSXTests */,
 				AE212A221AB1A8AE0070A103 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -40,60 +106,194 @@
 		AE212A221AB1A8AE0070A103 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AE212A211AB1A8AE0070A103 /* EnumJsonFramework.framework */,
+				AE9B9E771AB586EC006B71BC /* EnumJson.framework */,
+				AE9B9E811AB586EC006B71BC /* EnumJsonOSXTests.xctest */,
+				AE9B9E951AB58759006B71BC /* EnumJson.framework */,
+				AE9B9E9F1AB5875A006B71BC /* EnumJsonTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		AE212A231AB1A8AE0070A103 /* EnumJsonFramework */ = {
+		AE9B9E781AB586EC006B71BC /* EnumJsonOSX */ = {
 			isa = PBXGroup;
 			children = (
-				AE212A3D1AB1A8CC0070A103 /* EnumJson.swift */,
-				AE212A261AB1A8AE0070A103 /* EnumJsonFramework.h */,
-				AE212A241AB1A8AE0070A103 /* Supporting Files */,
+				AE9B9E7B1AB586EC006B71BC /* EnumJsonOSX.h */,
+				AE9B9E791AB586EC006B71BC /* Supporting Files */,
 			);
-			path = EnumJsonFramework;
+			path = EnumJsonOSX;
 			sourceTree = "<group>";
 		};
-		AE212A241AB1A8AE0070A103 /* Supporting Files */ = {
+		AE9B9E791AB586EC006B71BC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				AE212A251AB1A8AE0070A103 /* Info.plist */,
+				AE9B9E7A1AB586EC006B71BC /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AE9B9E851AB586EC006B71BC /* EnumJsonOSXTests */ = {
+			isa = PBXGroup;
+			children = (
+				AE9B9E881AB586EC006B71BC /* EnumJsonOSXTests.swift */,
+				AE9B9E861AB586EC006B71BC /* Supporting Files */,
+			);
+			path = EnumJsonOSXTests;
+			sourceTree = "<group>";
+		};
+		AE9B9E861AB586EC006B71BC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AE9B9E871AB586EC006B71BC /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AE9B9E961AB58759006B71BC /* EnumJson */ = {
+			isa = PBXGroup;
+			children = (
+				AE9B9E991AB58759006B71BC /* EnumJson.h */,
+				AE9B9E971AB58759006B71BC /* Supporting Files */,
+			);
+			path = EnumJson;
+			sourceTree = "<group>";
+		};
+		AE9B9E971AB58759006B71BC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AE9B9E981AB58759006B71BC /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AE9B9EA31AB5875A006B71BC /* EnumJsonTests */ = {
+			isa = PBXGroup;
+			children = (
+				AE9B9EA61AB5875A006B71BC /* EnumJsonTests.swift */,
+				AE9B9EA41AB5875A006B71BC /* Supporting Files */,
+			);
+			path = EnumJsonTests;
+			sourceTree = "<group>";
+		};
+		AE9B9EA41AB5875A006B71BC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AE9B9EA51AB5875A006B71BC /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AE9B9EB11AB587EB006B71BC /* ExampleJson */ = {
+			isa = PBXGroup;
+			children = (
+				AE9B9EB21AB587EB006B71BC /* JsonExample1.txt */,
+				AE9B9EB31AB587EB006B71BC /* JsonExample2.txt */,
+			);
+			name = ExampleJson;
+			path = ../ExampleJson;
+			sourceTree = "<group>";
+		};
+		AE9B9EF51AB58A4B006B71BC /* src */ = {
+			isa = PBXGroup;
+			children = (
+				AE9B9EAE1AB587B9006B71BC /* EnumJson.swift */,
+			);
+			name = src;
+			path = ../ExampleJson;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		AE212A1E1AB1A8AE0070A103 /* Headers */ = {
+		AE9B9E741AB586EC006B71BC /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AE212A271AB1A8AE0070A103 /* EnumJsonFramework.h in Headers */,
+				AE9B9E7C1AB586EC006B71BC /* EnumJsonOSX.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AE9B9E921AB58759006B71BC /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AE9B9E9A1AB58759006B71BC /* EnumJson.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		AE212A201AB1A8AE0070A103 /* EnumJsonFramework */ = {
+		AE9B9E761AB586EC006B71BC /* EnumJsonOSX */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AE212A371AB1A8AE0070A103 /* Build configuration list for PBXNativeTarget "EnumJsonFramework" */;
+			buildConfigurationList = AE9B9E8A1AB586EC006B71BC /* Build configuration list for PBXNativeTarget "EnumJsonOSX" */;
 			buildPhases = (
-				AE212A1C1AB1A8AE0070A103 /* Sources */,
-				AE212A1D1AB1A8AE0070A103 /* Frameworks */,
-				AE212A1E1AB1A8AE0070A103 /* Headers */,
-				AE212A1F1AB1A8AE0070A103 /* Resources */,
+				AE9B9E721AB586EC006B71BC /* Sources */,
+				AE9B9E731AB586EC006B71BC /* Frameworks */,
+				AE9B9E741AB586EC006B71BC /* Headers */,
+				AE9B9E751AB586EC006B71BC /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = EnumJsonFramework;
-			productName = EnumJsonFramework;
-			productReference = AE212A211AB1A8AE0070A103 /* EnumJsonFramework.framework */;
+			name = EnumJsonOSX;
+			productName = EnumJsonOSX;
+			productReference = AE9B9E771AB586EC006B71BC /* EnumJson.framework */;
 			productType = "com.apple.product-type.framework";
+		};
+		AE9B9E801AB586EC006B71BC /* EnumJsonOSXTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AE9B9E8D1AB586EC006B71BC /* Build configuration list for PBXNativeTarget "EnumJsonOSXTests" */;
+			buildPhases = (
+				AE9B9E7D1AB586EC006B71BC /* Sources */,
+				AE9B9E7E1AB586EC006B71BC /* Frameworks */,
+				AE9B9E7F1AB586EC006B71BC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AE9B9E841AB586EC006B71BC /* PBXTargetDependency */,
+			);
+			name = EnumJsonOSXTests;
+			productName = EnumJsonOSXTests;
+			productReference = AE9B9E811AB586EC006B71BC /* EnumJsonOSXTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		AE9B9E941AB58759006B71BC /* EnumJson */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AE9B9EA81AB5875A006B71BC /* Build configuration list for PBXNativeTarget "EnumJson" */;
+			buildPhases = (
+				AE9B9E901AB58759006B71BC /* Sources */,
+				AE9B9E911AB58759006B71BC /* Frameworks */,
+				AE9B9E921AB58759006B71BC /* Headers */,
+				AE9B9E931AB58759006B71BC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EnumJson;
+			productName = EnumJson;
+			productReference = AE9B9E951AB58759006B71BC /* EnumJson.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		AE9B9E9E1AB5875A006B71BC /* EnumJsonTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AE9B9EAB1AB5875A006B71BC /* Build configuration list for PBXNativeTarget "EnumJsonTests" */;
+			buildPhases = (
+				AE9B9E9B1AB5875A006B71BC /* Sources */,
+				AE9B9E9C1AB5875A006B71BC /* Frameworks */,
+				AE9B9E9D1AB5875A006B71BC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AE9B9EA21AB5875A006B71BC /* PBXTargetDependency */,
+			);
+			name = EnumJsonTests;
+			productName = EnumJsonTests;
+			productReference = AE9B9E9F1AB5875A006B71BC /* EnumJsonTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -104,7 +304,16 @@
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = Ushio;
 				TargetAttributes = {
-					AE212A201AB1A8AE0070A103 = {
+					AE9B9E761AB586EC006B71BC = {
+						CreatedOnToolsVersion = 6.3;
+					};
+					AE9B9E801AB586EC006B71BC = {
+						CreatedOnToolsVersion = 6.3;
+					};
+					AE9B9E941AB58759006B71BC = {
+						CreatedOnToolsVersion = 6.3;
+					};
+					AE9B9E9E1AB5875A006B71BC = {
 						CreatedOnToolsVersion = 6.3;
 					};
 				};
@@ -121,31 +330,96 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AE212A201AB1A8AE0070A103 /* EnumJsonFramework */,
+				AE9B9E761AB586EC006B71BC /* EnumJsonOSX */,
+				AE9B9E801AB586EC006B71BC /* EnumJsonOSXTests */,
+				AE9B9E941AB58759006B71BC /* EnumJson */,
+				AE9B9E9E1AB5875A006B71BC /* EnumJsonTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		AE212A1F1AB1A8AE0070A103 /* Resources */ = {
+		AE9B9E751AB586EC006B71BC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AE9B9E7F1AB586EC006B71BC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AE9B9EB61AB587EB006B71BC /* JsonExample2.txt in Resources */,
+				AE9B9EB41AB587EB006B71BC /* JsonExample1.txt in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AE9B9E931AB58759006B71BC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AE9B9E9D1AB5875A006B71BC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AE9B9EB71AB587EB006B71BC /* JsonExample2.txt in Resources */,
+				AE9B9EB51AB587EB006B71BC /* JsonExample1.txt in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		AE212A1C1AB1A8AE0070A103 /* Sources */ = {
+		AE9B9E721AB586EC006B71BC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AE212A3E1AB1A8CC0070A103 /* EnumJson.swift in Sources */,
+				AE9B9EAF1AB587B9006B71BC /* EnumJson.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AE9B9E7D1AB586EC006B71BC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AE9B9E891AB586EC006B71BC /* EnumJsonOSXTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AE9B9E901AB58759006B71BC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AE9B9EB01AB587B9006B71BC /* EnumJson.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AE9B9E9B1AB5875A006B71BC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AE9B9EA71AB5875A006B71BC /* EnumJsonTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AE9B9E841AB586EC006B71BC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AE9B9E761AB586EC006B71BC /* EnumJsonOSX */;
+			targetProxy = AE9B9E831AB586EC006B71BC /* PBXContainerItemProxy */;
+		};
+		AE9B9EA21AB5875A006B71BC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AE9B9E941AB58759006B71BC /* EnumJson */;
+			targetProxy = AE9B9EA11AB5875A006B71BC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		AE212A351AB1A8AE0070A103 /* Debug */ = {
@@ -237,26 +511,90 @@
 			};
 			name = Release;
 		};
-		AE212A381AB1A8AE0070A103 /* Debug */ = {
+		AE9B9E8B1AB586EC006B71BC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = EnumJsonFramework/Info.plist;
+				FRAMEWORK_VERSION = A;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = EnumJsonOSX/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_MODULE_NAME = EnumJsonFramework;
-				PRODUCT_NAME = EnumJsonFramework;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_MODULE_NAME = EnumJson;
+				PRODUCT_NAME = EnumJson;
+				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		AE212A391AB1A8AE0070A103 /* Release */ = {
+		AE9B9E8C1AB586EC006B71BC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = EnumJsonOSX/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_MODULE_NAME = EnumJson;
+				PRODUCT_NAME = EnumJson;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		AE9B9E8E1AB586EC006B71BC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = EnumJsonOSXTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		AE9B9E8F1AB586EC006B71BC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = EnumJsonOSXTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		AE9B9EA91AB5875A006B71BC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
@@ -264,13 +602,62 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = EnumJsonFramework/Info.plist;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = EnumJson/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_MODULE_NAME = EnumJsonFramework;
-				PRODUCT_NAME = EnumJsonFramework;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		AE9B9EAA1AB5875A006B71BC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = EnumJson/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		AE9B9EAC1AB5875A006B71BC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = EnumJsonTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		AE9B9EAD1AB5875A006B71BC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = EnumJsonTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -286,11 +673,38 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AE212A371AB1A8AE0070A103 /* Build configuration list for PBXNativeTarget "EnumJsonFramework" */ = {
+		AE9B9E8A1AB586EC006B71BC /* Build configuration list for PBXNativeTarget "EnumJsonOSX" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				AE212A381AB1A8AE0070A103 /* Debug */,
-				AE212A391AB1A8AE0070A103 /* Release */,
+				AE9B9E8B1AB586EC006B71BC /* Debug */,
+				AE9B9E8C1AB586EC006B71BC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AE9B9E8D1AB586EC006B71BC /* Build configuration list for PBXNativeTarget "EnumJsonOSXTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AE9B9E8E1AB586EC006B71BC /* Debug */,
+				AE9B9E8F1AB586EC006B71BC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AE9B9EA81AB5875A006B71BC /* Build configuration list for PBXNativeTarget "EnumJson" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AE9B9EA91AB5875A006B71BC /* Debug */,
+				AE9B9EAA1AB5875A006B71BC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AE9B9EAB1AB5875A006B71BC /* Build configuration list for PBXNativeTarget "EnumJsonTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AE9B9EAC1AB5875A006B71BC /* Debug */,
+				AE9B9EAD1AB5875A006B71BC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
