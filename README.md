@@ -1,6 +1,6 @@
-##Type Safe, Thread Safe, Light Json Library in Swift
+## Type Safe, Thread Safe, Light Json Library in Swift
 
-###Required Swift 1.2
+### Required Swift 1.2
 
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
@@ -8,7 +8,7 @@
 github "Ushio/EnumJson"
 ```
 
-####Definision of Json
+#### Definision of Json
 ```
 public enum Json {
     case JObject  ([String : Json])
@@ -19,7 +19,7 @@ public enum Json {
     case JNull
 }
 ```
-####Building Json
+#### Building Json
 ```
 let json: Json = [
     "string" : "string_value",
@@ -36,20 +36,20 @@ let json: Json = [
 ]
 ```
 
-####Export Json
+#### Export Json
 ```
 if let data = json.jsonData {
   // do something
 }
 ```
-####Import Json
+#### Import Json
 ```
 if let json = Json(data: data) {
   // do something
 }
 ```
 
-####Definision of JsonPath
+#### Definision of JsonPath
 ```
 enum JsonPath {
     case Key   (String, () -> JsonPath)
@@ -57,7 +57,7 @@ enum JsonPath {
     case Nil
 }
 ```
-####JsonPath Access
+#### JsonPath Access
 ```
 let json: Json = [
     "string" : "string_value",
@@ -77,7 +77,7 @@ let green: String? = json["array" ~> 1]?.string
 let three: Double? = json["object" ~> "three"]?.double
 ```
 
-####Remove Json (EJson is purely immutable)
+#### Remove
 ```
 var json: Json = [
     "string" : "string_value",
@@ -105,7 +105,7 @@ let yes = json == [
     ]
 ]
 ```
-####Replace Json (EJson is purely immutable)
+#### Replace
 ```
 var json: Json = [
     "string" : "string_value",
@@ -131,7 +131,7 @@ let yes = json == [
 ]
 
 ```
-####Append Json
+#### Set Value
 ```
 var json: Json = [:]
 
@@ -147,7 +147,7 @@ let yes = json == [
 ]
 ```
 
-####Object Mapping
+#### Object Mapping
 ```
 struct User {
     let number: Double
