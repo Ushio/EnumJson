@@ -4,10 +4,10 @@
 
 ####Definision of Json
 ```
-enum EJson {
-    case JObject  (Dictionary<String, EJson>)
-    case JArray   (Array<EJson>)
-    case JNumber  (Double)
+public enum Json {
+    case JObject  ([String : Json])
+    case JArray   ([Json])
+    case JNumber  (NSNumber)
     case JString  (String)
     case JBoolean (Bool)
     case JNull
@@ -15,7 +15,7 @@ enum EJson {
 ```
 ####Building Json
 ```
-let json: EJson = [
+let json: Json = [
     "string" : "string_value",
     "number_double" : 10.5,
     "number_int" : 15,
@@ -32,32 +32,28 @@ let json: EJson = [
 
 ####Export Json
 ```
-let data = json.jsonData
+if let data = json.jsonData {
+  // do something
+}
 ```
 ####Import Json
 ```
-if let json = EJson(data: data) {
+if let json = Json(data: data) {
   // do something
 }
 ```
 
 ####Definision of JsonPath
 ```
-class JBox<T> {
-    let unbox: T
-    init(_ value: T) {
-        self.unbox = value
-    }
-}
-enum EJsonPath {
-    case Key(String, JBox<EJsonPath>)
-    case Index(Int, JBox<EJsonPath>)
-    case End
+enum JsonPath {
+    case Key   (String, () -> JsonPath)
+    case Index (Int,    () -> JsonPath)
+    case Nil
 }
 ```
 ####JsonPath Access
 ```
-let json: EJson = [
+let json: Json = [
     "string" : "string_value",
     "number_double" : 10.5,
     "number_int" : 15,
@@ -70,14 +66,14 @@ let json: EJson = [
         "three" : 3
     ]
 ]
-let string_value: String? = json["string_value"]?.asString
-let green: String? = json["array" ~> 1]?.asString
-let three: Double? = json["object" ~> "three"]?.asNumber
+let string_value: String? = json["string_value"]?.string
+let green: String? = json["array" ~> 1]?.string
+let three: Double? = json["object" ~> "three"]?.double
 ```
 
 ####Remove Json (EJson is purely immutable)
 ```
-let json_a: EJson = [
+var json: Json = [
     "string" : "string_value",
     "number_double" : 10.5,
     "number_int" : 15,
@@ -88,13 +84,12 @@ let json_a: EJson = [
         "three" : 3
     ]
 ]
-let json_b = json_a
-    .remove("number_int")
-    .remove("array" ~> 1)
-    .remove("object" ~> "one")
 
+json["number_int"] = nil
+json["array" ~> 1] = nil
+json["object" ~> "one"] = nil
 
-let yes = json_b == [
+let yes = json == [
     "string" : "string_value",
     "number_double" : 10.5,
     "array" : ["red", "blue", "blue"],
@@ -106,11 +101,10 @@ let yes = json_b == [
 ```
 ####Replace Json (EJson is purely immutable)
 ```
-let json_a: EJson = [
+var json: Json = [
     "string" : "string_value",
     "number_double" : 10.5,
     "number_int" : 15,
-    "boolean" : true,
     "array" : ["red", "green", "blue", "blue"],
     "object" : [
         "one" : 1,
@@ -118,13 +112,11 @@ let json_a: EJson = [
         "three" : 3
     ]
 ]
-let json_b = json_a
-    .replace(100, jsonPath: "number_double")
-    .replace("head", jsonPath: "array" ~> 0)
-    .replace("aaaaa", jsonPath: "aaa") /* ignore it! */
-    .replace(["four" : 4], jsonPath: "object")
+json["number_double"] = 100
+json["array" ~> 0] = "head"
+json["object"] = ["four" : 4]
 
-let yes = json_b == [
+let yes = json == [
     "string" : "string_value",
     "number_double" : 100,
     "number_int" : 15,
@@ -135,39 +127,43 @@ let yes = json_b == [
 ```
 ####Append Json
 ```
-var json: EJson = [:]
+var json: Json = [:]
 
-json = json.append("string", jsonPath: "string_key")
-json = json.append(true, jsonPath: "key1" ~> "key2")
-json = json.append("a", jsonPath: "key3")
-json = json.append("c", jsonPath: "key3")
+json["string_key"] = "string"
+json["key1" ~> "key2"] = true
+json["key3"] = "a"
+json["key3"] = "c"
 
 let yes = json == [
     "string_key" : "string",
     "key1" : ["key2" : true],
-    "key3" : ["a", "c"]
+    "key3" : "c"
 ]
 ```
 
 ####Object Mapping
 ```
 struct User {
+    let number: Double
     let name: String
-    let imageurl: String
-    let dummy: String?
 
-    static func construct(name: String)(imageurl: String)(dummy: String?) -> User{
-        return User(name: name, imageurl: imageurl, dummy:dummy)
-    }
-    static func fromJson(json: EJson) -> User? {
-        return construct <*> json["name"]?.asString <*> json["profile_image_url"]?.asString <*> json["dummy"]?.asString
+    static func fromJson(json: Json) -> User? {
+        if
+            let number = json["number"]?.double,
+            let name = json["name"]?.string
+        {
+            return User(number: number, name: name)
+        }
+        return nil
     }
 }
 
-let json: EJson = [
-    "name" : "ken",
-    "profile_image_url" : "http://image.png"
+let json: Json = [
+    "number" : 17.4,
+    "name" : "ken"
 ]
 
-let user = User.fromJson(json)
+if let user = User.fromJson(json) {
+    // do something
+}
 ```
